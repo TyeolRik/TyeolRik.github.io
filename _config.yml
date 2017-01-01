@@ -12,7 +12,7 @@ url: "https://tyeolrik.github.io"
 #
 # NB! Without this *nothing* will work, because it's used in every path :)
 
-baseurl: "https://tyeolrik.github.io"
+baseurl: ""
 
 # Google tracking id
 
@@ -28,7 +28,7 @@ force-https: True
 # HTML Head #
 #############
 
-lang: "ko"
+lang: "en"
 author: "TyeolRik"
 title: "{ the World of TyeolRik Life! }"
 description: "Welcome to the world of TyeolRik! Blogging mainly for programming. I am newbee here^^"
@@ -102,7 +102,7 @@ pinterest-share: True
 pocket-share: True
 vkontakte-share: True
 
-disqus-shortname: "TyeolRik"
+disqus-shortname: "tyeolrik"
 
 syntax-highlight: True
 
