@@ -58,7 +58,7 @@ lines: # You can add HTML Tags in the Text
   - text: "Only the Paranoid survive."
   - text: "Where’s your will to be weird?"
 
-me-img: "/img/owl.jpg"
+me-img: "/img/owl.png"
 
 ##############################
 # Color the browser elements #
@@ -137,7 +137,7 @@ email: "kino6147@naver.com"
 
 # if the author_blurb is not set, then this feature is skipped
 author_blurb: "TyeolRik is an awesome person. He lives in Republic of Korea, where he attends Univ. of Seoul. In his spare time, TyeolRik likes to play tennis LUL."
-author_blurb_image: "/img/owl.jpg"
+author_blurb_image: "/img/owl.png"
 
 ##################
 # Social Buttons #
@@ -193,3 +193,5 @@ sass:
 gems:
   - jekyll-paginate
   - jemoji
+
+environment: production
