@@ -87,7 +87,7 @@ icon-192p: "/img/web-app/owl-192p.png"
 
 enable-gesture-navigation: True
 
-post-preview-words: 96
+post-preview-words: 70
 
 paginate: 5
 

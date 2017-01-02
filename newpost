@@ -11,6 +11,7 @@ post = "C:/jekyll/blog/TyeolRik.github.io/_posts/#{date_prefix}-#{postname}.md"
 
 header = <<-END
 ---
+date: #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}
 layout: post
 title: "#{ARGV[0]}"
 section-type: post
