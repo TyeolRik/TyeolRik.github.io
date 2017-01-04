@@ -31,7 +31,7 @@ force-https: True
 lang: "en"
 author: "TyeolRik"
 title: "{ the World of TyeolRik Life! }"
-description: "Welcome to the world of TyeolRik! Blogging mainly for programming. I am newbee here^^"
+description: "Welcome to the world of TyeolRik! Blogging mainly for programming. I am newbie too^^"
 keywords: "android, TyeolRik, personal, java, coding, developer, newbee"
 favicon: "/img/favicon.ico"
 
@@ -112,11 +112,14 @@ syntax-highlight: True
 
 events:
   - image: "/img/timeline/spidertocat.png"
-    date: "September 2013 - Today"
-    description: "Saving the neighborhood!"
+    date: "January 2017 - Today"
+    description: "Saving the developers!"
+  - image: "/img/timeline/androidgithub.png"
+    date: "October 2016 - Today"
+    description: "Started Android!"
   - image: "/img/timeline/baracktocat.jpg"
-    date: "September 2007 - August 2013"
-    description: "Started coding"
+    date: "March 2015 - Today"
+    description: "Learning Coding"
 
 # First image of the Timeline
 
@@ -136,7 +139,7 @@ email: "kino6147@naver.com"
 # This works best when your author blurb image has a transparent background, or matches your site background color.
 
 # if the author_blurb is not set, then this feature is skipped
-author_blurb: "TyeolRik is an awesome person. He lives in Republic of Korea, where he attends Univ. of Seoul. In his spare time, TyeolRik likes to play tennis LUL."
+author_blurb: "TyeolRik is an awesome person. He lives in Republic of Korea, where he attends University. In his spare time, TyeolRik likes to play tennis LUL."
 author_blurb_image: "/img/owl.png"
 
 ##################
