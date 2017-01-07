@@ -8,6 +8,7 @@
 .code {
   width:100%;
   pre {
+    margin: 0 0 0 !important;
     border-color: #23241f !important;
     display: block;
     white-space: pre-wrap;
@@ -18,4 +19,5 @@
 
 section#post.container.content-section p {
   text-align: left;
+  margin: 8px;
 }
