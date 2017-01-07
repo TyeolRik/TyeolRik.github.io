@@ -73,11 +73,11 @@ Stack Overflow is the error when there is lack of memory. Fuctions makes stacks 
 
 It was a real shock that heartbleed bug, which I learned when I was studying about overflow, existed. In 2014, Finnish security company announced fatal flaws of OpenSSL. OpenSSL is software which is used for exchanging their information between computer and server. And a lot of IT service, cards or financial crypto system depends on OpenSSL. OpenSSL needs to keep connection even though no need to exchange information. So, OpenSSL uses the signal which is named HeartBeat.
 
->> User: "Apple", 5 Letters.
->> Server: 5 Letters, OK, "Apple"
->> User: "Banana". 6 Letters.
->> Server: 6 Letters, OK, "Banana"
->> User: "Computer", 5000 Letters.
+>> User: "Apple", 5 Letters.  
+>> Server: 5 Letters, OK, "Apple"  
+>> User: "Banana". 6 Letters.  
+>> Server: 6 Letters, OK, "Banana"  
+>> User: "Computer", 5000 Letters.  
 >> Server: 5000 Letters, OK, "Computer Banana Apple Pizza Hambuger McDonald John Mike Bla Bla Bla"
 
 User sends random data packets periodically so as to notice server's existence and, server returns exactly some amount of data to report its existence. However, user states amount of data falsely, server draw another information which was in its memory because server has responsibility of sending exactly same data. This is sort of buffer overflow. If user do this process repeatedly, user can build up server's data. In other words, server data is leaked.
