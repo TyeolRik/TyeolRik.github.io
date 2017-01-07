@@ -3,7 +3,7 @@ layout: post
 title: "the Begin of TyeolRik's Blog [KOR]"
 section-type: post
 category: blog
-tags: [ 'introduction', 'korean' ]
+tags: [ 'korean', 'introduction' ]
 ---
 ### If you want to read this post in English,
 Please click **[HERE]({{ site.baseurl }}{% link _posts/2017-01-01-the-begin-of-tyeolrik-blog-eng.md %})**. But I am unsure as to weather it is grammatically correct. **LUL**

@@ -1,9 +1,9 @@
 ---
 layout: post
-title: 오버플로우 - "왜 내 소스가 제대로 작동하지 않는걸까?" [KOR]
+title: 오버플로우 - "왜 내 코드가 제대로 작동하지 않는걸까?" [KOR]
 section-type: post
 category: theory
-tags: [ 'theory', 'overflow' ]
+tags: [ 'korean', 'theory', 'overflow' ]
 ---
 ### If you want to read this post in English,
 Please click **[HERE]({{ site.baseurl }}{% link _posts/2017-01-04-why-my-program-doesnt-work-eng.md %})**. But I am unsure as to weather it is grammatically correct. **LUL**
@@ -52,7 +52,7 @@ Java의 자동 형변환 때문에 resultMillis 값이 long 형이니깐 뒤의 
 
 > 정의: 프로그래밍에서, 메모리 용량을 넘어선 값이 들어가 생기는 오류
 
-모든 변수는 메모리에 일정부분을 할당한다.  예를 들어 8비트짜리 변수 A가 있다고 해보자. 그렇다면 A는 2^8 = 256가지의 숫자를 저장할 수 있다. 즉, -128 ~ +127까지의 숫자를 저장할 수 있다.
+모든 변수는 메모리에 일정부분에 할당된다.  예를 들어 8비트짜리 변수 A가 있다고 해보자. 그렇다면 A는 2^8 = 256가지의 숫자를 저장할 수 있다. 즉, -128 ~ +127까지의 숫자를 저장할 수 있다.
 
 ``` {.java}
 byte A = 127;
@@ -64,20 +64,20 @@ System.out.println(String.valueOf(A)); // -128이 출력된다.
 
 ### 오버플로우의 사례
 
-> Stack Overflow
+> 스택 오버플로우 (Stack Overflow)
 
-Stack Overflow는 메모리가 부족할 때 생기는 오류이다. 함수는 변수 등을 저장하기 위해서 스택을 만드는데 함수가 재귀적으로 계속 실행되면 스택이 점점 늘어나고 한계에 다다르면 Stack Overflow가 발생한다. ~~필자의 추측이지만 개발자 사이트 <a href="http://stackoverflow.com/"><font color="#2d2d2d">StackOverflow</font></a>의 이름도 아마 코딩을 재귀적으로 계속 하다보면 오류가 늘어나고 그때 검색해보라는 의미에서 지은 것이 아닐까 하고 생각한다.~~
+스택 오버플로우는 메모리가 부족할 때 생기는 오류이다. 함수는 변수 등을 저장하기 위해서 스택을 만드는데 함수가 재귀적으로 계속 실행되면 스택이 점점 늘어나고 한계에 다다르면 Stack Overflow가 발생한다. ~~필자의 추측이지만 개발자 사이트 <a href="http://stackoverflow.com/"><font color="#2d2d2d">StackOverflow</font></a>의 이름도 아마 코딩을 재귀적으로 계속 하다보면 오류가 늘어나고 그때 검색해보라는 의미에서 지은 것이 아닐까 하고 생각한다.~~
 
 > 하트블리드 사태 (버퍼 오버플로우)
 
 필자가 오버플로우에 대해서 공부하다가 알게된 **하트블리드 사태**가 충격적이었다. 2014년에 핀란드의 보안 회사에서 OpenSSL의 보안결함을 발표하면서 널리 알려진 사태이다. OpenSSL이란 컴퓨터와 서버가 정보를 교환할 때 사용되는 소프트웨어인데, 많은 IT 서비스나 카드, 금융 쪽의 암호 시스템은 OpenSSL에 의존하고 있다. OpenSSL은 연결을 계속 유지시키기 위해서 하트비트(HeartBeat)라는 신호를 사용한다.
 
-> 사용자: "Apple", 5글자
-> 서버: 5글자를 충족, "Apple"
-> 사용자: "Banana", 6글자
-> 서버: 6글자를 충족, "Banana"
-> 사용자: "Computer" 5000글자
-> 서버: 5000글자를 충족하는 메세지를 보내야겠다. "Computer Banana Apple Pizza Hambuger McDonald ~~"
+>> 사용자: "Apple", 5글자  
+>> 서버: 5글자를 충족하는 메세지를 보내야겠다. "Apple"  
+>> 사용자: "Banana", 6글자  
+>> 서버: 6글자를 충족하는 메세지를 보내야겠다. "Banana"  
+>> 사용자: "Computer", 5000글자  
+>> 서버: 5000글자를 충족하는 메세지를 보내야겠다. "Computer Banana Apple Pizza Hambuger McDonald John Mike ~~"
 
  사용자는 서버의 존재여부를 판단하기 위해서 일정 주기마다 무작위 데이터가 담긴 패킷을 전송하고 서버는 정확히 같은 양의 데이터를 돌려줌으로써 존재를 알린다. 그런데, 사용자가 얼마만큼의 데이터를 보냈는지를 거짓으로 명시하면, 서버는 그만큼의 데이터를 보내주어야하기 때문에 메모리에 있는 다른 정보를 끌어와서 데이터를 돌려준다. 이런 방법을 수없이 많이 반복하면 서버의 데이터를 사용자가 축적할 수 있다. 즉, 서버의 데이터가 유출된다는 것이다.
 
