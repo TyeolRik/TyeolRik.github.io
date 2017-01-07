@@ -1,1 +1,17 @@
 // Mixins
+
+.lineno {
+  border-color: #23241f !important;
+  padding-right: 12px !important;
+}
+
+.code {
+  width:100%;
+  pre {
+    border-color: #23241f !important;
+    display: block;
+    white-space: pre-wrap;
+    overflow-x: auto;
+    word-wrap: normal;
+  }
+}

@@ -58,7 +58,7 @@ lines: # You can add HTML Tags in the Text
   - text: "Only the Paranoid survive."
   - text: "Where’s your will to be weird?"
 
-me-img: "/img/owl.png"
+me-img: "/img/tyeolrik.png"
 
 ##############################
 # Color the browser elements #
@@ -140,7 +140,7 @@ email: "kino6147@naver.com"
 
 # if the author_blurb is not set, then this feature is skipped
 author_blurb: "TyeolRik is an awesome person. He lives in Republic of Korea, where he attends University. In his spare time, TyeolRik likes to play tennis LUL."
-author_blurb_image: "/img/owl.png"
+author_blurb_image: "/img/tyeolrik_transparent.png"
 
 ##################
 # Social Buttons #
@@ -158,7 +158,7 @@ social:
 # 404 page #
 ############
 
-+err-404-img: "/img/owl-400p"
++err-404-img: "/img/tyeolrik_transparent.png"
 
 ##################
 # GPG on Keybase #
@@ -198,3 +198,5 @@ gems:
   - jemoji
 
 environment: production
+
+highlighter: rouge
