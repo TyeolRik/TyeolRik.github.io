@@ -58,13 +58,14 @@ void onClickMethod() {
 
 IDE: Android Studio 2.2.3  
 ButterKnife: ButterKnife 8.4.0 (2017-01-11 최신)
+OS: Windows 7 (64Bits)
 
 ### 다운로드 방법
 
-간단합니다! build.gradle에 단, 3줄만 수정해주면 사용할 수 있으니깐요. 아-주 상세히 설명할테니, 초등학생이라도 할 수 있습니다. 새로운 프로젝트로 설명을 시작하겠습니다.
+간단합니다! build.gradle에 단, 3줄만 수정해주면 사용할 수 있으니깐요. 아-주 상세히 설명할테니, 초등학생이라도 할 수 있습니다. 새로운 프로젝트로 설명을 시작하겠습니다. (지금 작업하는 프로젝트에도 적용할 수 있습니다.)
 
 #### 1. **새로운 프로젝트를 하나 만들어줍시다**
-Android Studio - **New Project**(좌측 상단 File - New - New Project) - Application Name: ButterKnife ~~Company Domain이나 location은 취향에 따라 알아서 하세요. 초보자면 건들지 않는게 정신건강에 좋습니다.~~ - **Next** - Minimun SDK: API 10 ~~큰 의미는 없는데 그냥 모든 기기에서 사용해보라고 아주 옛날 버전을 선택~~ - **Next** - Empty Activity - **Next** - **Finish**
+Android Studio - **New Project**(좌측 상단 File - New - New Project) - Application Name: ButterKnife ~~Company Domain이나 location은 취향에 따라 알아서 하세요. 초보자면 건들지 않는게 정신건강에 좋습니다.~~ - **Next** - Minimum SDK: API 10 ~~큰 의미는 없는데 그냥 모든 기기에서 사용해보라고 아주 옛날 버전을 선택~~ - **Next** - Empty Activity - **Next** - **Finish**
 
 #### 2. **Gradle을 수정해줍시다**
 만들어진 새 ButterKnife Project 창은 잠시 내려주고 [ButterKnife-GitHub][b0cc7986] 들어갑시다. 수많은 영어와 알지 못하는 파일들이 있지만 일단 무시하고 아래로 스크롤를 내리면 **README.md**, Butter Knife 라는 글자와 공식마크 ~~버터가 안드로이드 모양~~ 가 보입니다. 더 내려가면 **Download**라는 글자가 있을겁니다. 그곳을 주시하세요!
@@ -98,7 +99,7 @@ dependencies {
 }
 {% endhighlight gradle %}
 
-다음과 같은 코드들이 적혀있을 거예요. ~~위의 코드에서 보셨듯이 중간 코드는 과감히 생략했습니다.~~ **이 자리입니다!**라고 주석을 달아놓은 곳에 위에서 언급한 ButterKnife Readme에 있는 ~~아까 복사한~~ **Download**의 dependencies 안의 두 줄을 복사해서 붙여넣기 합시다. 만약, Gradle이 변경되었다고 위에 파란줄과 함께 Sync Now라는 창이 나오면 그냥 Sync Now 눌러주고 일단 넘어갑시다. 오류창이 나도 일단 무시하세요.
+다음과 같은 코드들이 적혀있을 거예요. ~~위의 코드에서 보셨듯이 중간 코드는 과감히 생략했습니다.~~ **이 자리입니다!**라고 주석을 달아놓은 곳에 위에서 언급한 ButterKnife Readme에 있는 ~~아까 복사한~~ **Download**의 dependencies 안의 두 줄을 복사해서 붙여넣기 합시다. 만약, Gradle이 변경되었다고 위에 파란줄과 함께 Sync Now라는 창이 나오면 그냥 Sync Now 눌러주고 일단 넘어갑시다. 오류창이 나도 일단 무시하세요. (저의 경우에는 에러가 안 나왔습니다.)
 
 다시 아까 [ButterKnife-GitHub][b0cc7986] 창을 열어봅시다. 아까 봤던 **Download** 밑에 **Library projects**라고 있죠? 
 
@@ -115,9 +116,9 @@ buildscript {
 
 라고 적혀있을텐데,
 
-{% highlight gradle %}
+{% highlight java %}
 classpath 'com.jakewharton:butterknife-gradle-plugin:8.4.0'
-{% endhighlight gradle %}
+{% endhighlight java %}
 
 이 문장을 복사해줍시다. 그리고, Android Studio를 켜서 Gradle Scripts - build.gradle (Project: ButterKnife) 를 열어줍시다. ~~더블클릭~~ 
 
@@ -135,15 +136,15 @@ buildscript {
 }
 {% endhighlight gradle %}
 
-라고 적힌 곳의 depecdencies 밑에 붙여줍시다. ~~주석표시 된 곳에 붙이면 됩니다.~~ 마찬가지로 Sync Now가 뜨면 해줍시다.
+라고 적힌 곳의 dependencies 밑에 붙여줍시다. ~~주석표시 된 곳에 붙이면 됩니다.~~ 마찬가지로 Sync Now가 뜨면 해줍시다.
 
 마지막 하나 남았습니다. 여기까지 했으면 오류없이 잘 되는 사람도 있고, 안 되는 사람이 있을 텐데요. 만약 오류가 뜬다면, 아까 들어갔던 Gradle Scripts - **build.gradle (Module: app)**에 들어갑시다.
 
 제일 첫 줄에 아마 다음과 같은 코드가 있을겁니다.
 
-{% highlight gradle %}
+{% highlight java %}
 apply plugin: 'com.android.application'
-{% endhighlight gradle %}
+{% endhighlight java %}
 
 이 밑에 한 줄을 추가합시다! 다음의 코드처럼요!
 
@@ -166,6 +167,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.android.library'
 {% endhighlight java %}
 
-로 바꿔보세요! ~~원문은 apply plugin: 'com.android.library'로 할 것을 권하고 있습니다.~~
+로 바꿔보세요! ~~원문은 apply plugin: 'com.android.library'로 할 것을 권하고 있습니다.~~ <br><br><br>
 
-다음 글은 ButterKnife를 사용하는 포스팅으로 돌아오겠습니다!
+
+<br><br><br>
