@@ -80,6 +80,7 @@ GEM
       ethon (>= 0.8.0)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    wdm (0.1.1)
     yell (2.0.7)
 
 PLATFORMS
@@ -93,6 +94,7 @@ DEPENDENCIES
   jemoji
   minima (~> 2.0)
   rouge
+  wdm
 
 RUBY VERSION
    ruby 2.2.6p396
