@@ -169,5 +169,5 @@ apply plugin: 'com.android.library'
 
 로 바꿔보세요! ~~원문은 apply plugin: 'com.android.library'로 할 것을 권하고 있습니다.~~ <br><br><br>
 
-
+다음 글: [Android - ButterKnife 사용법]({{ site.baseurl }}{% link _posts/2017-01-12-the-way-to-use-butterknife-kor.md %})
 <br><br><br>

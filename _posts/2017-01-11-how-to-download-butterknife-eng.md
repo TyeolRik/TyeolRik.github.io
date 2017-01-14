@@ -169,5 +169,5 @@ apply plugin: 'com.android.library'
 
 Official readme recommend you to use 'com.android.library' <br><br><br>
 
-
+Next post: [Android - The Way to Use ButterKnife]({{ site.baseurl }}{% link _posts/2017-01-12-the-way-to-use-butterknife-eng.md %})
 <br><br><br>
