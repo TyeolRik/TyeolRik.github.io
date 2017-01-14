@@ -13,11 +13,11 @@ Please click **[HERE]({{ site.baseurl }}{% link _posts/2017-01-15-what-is-picass
 Picasso는 Square Inc.가 개발한 오픈 소스 라이브러리입니다. Method Chain 방식이라서 매우 직관적입니다. 다음의 코드를 보면 누구라도 이해할 수 있을겁니다.
 
 
-~~~ java
+``` java
 Picasso.with(this) // Input
        .load(imageURL) // Operators
        .into(imageView); // Output
-~~~
+```
 
 거의 이건 프로그래밍 언어가 아니라 자연어(영어) 수준입니다. Picasso는 Reactive Programming(반응형 프로그래밍)으로 된 라이브러리입니다. 상당히 직관적이고 딱 한 줄로 이미지를 로드할 수 있습니다.
 
