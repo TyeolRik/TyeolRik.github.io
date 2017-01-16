@@ -33,3 +33,9 @@ It makes HTTP requests automatically. You don't have to think that what pages ar
 ### 3. Easy to edit image
 
 You can crop, center, resize images easily. I will show you details in next post.
+
+
+
+<br><br><br>
+Next post: [Android - How to use Picasso?]({{ site.baseurl }}{% link _posts/2017-01-16-how-to-use-picasso-eng.md %})
+<br><br><br>

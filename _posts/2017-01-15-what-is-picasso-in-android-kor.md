@@ -34,3 +34,7 @@ HTTP 요청을 자동으로 만들어줍니다. 페이지가 어떤 종류인지
 ### 3. 이미지를 편집하기 쉽다.
 
 자르거나 중심을 맞추거나, 크기를 조정하는 등의 작업은 매우 간편하게 할 수 있습니다. 구체적인 사용법은 다음 포스팅에서 다뤄보겠습니다.
+
+<br><br><br>
+Next post: [Android - Picasso 사용법]({{ site.baseurl }}{% link _posts/2017-01-16-how-to-use-picasso-kor.md %})
+<br><br><br>
