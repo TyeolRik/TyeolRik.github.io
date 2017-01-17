@@ -3,7 +3,7 @@ layout: post
 title: Android - Picasso 사용법 [KOR]
 section-type: post
 category: Android
-tags: [ 'korean', 'android', 'butterknife', 'gradle', 'library' ]
+tags: [ 'korean', 'android', 'picasso', 'gradle', 'library' ]
 ---
 ### If you want to read this post in English,
 Please click **[HERE]({{ site.baseurl }}{% link _posts/2017-01-16-how-to-use-picasso-eng.md %})**. But I am unsure as to weather it is grammatically correct. **LUL**
