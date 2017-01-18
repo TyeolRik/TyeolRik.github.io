@@ -2,11 +2,11 @@
 layout: post
 title: 2. 자료구조의 이해
 section-type: post
-category: Data Structure
+category: Data_Structure
 tags:
   - korean
   - theory
-  - data-structure
+  - data_structure
 ---
 
 ## 자료구조에 대한 기본적인 이해

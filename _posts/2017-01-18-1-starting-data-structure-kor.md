@@ -2,11 +2,11 @@
 layout: post
 title: 1. 자료구조 공부 시작
 section-type: post
-category: Data Structure
+category: Data_Structure
 tags:
   - korean
   - theory
-  - data-structure
+  - data_structure
 ---
 
 ## 자료구조 공부의 시작

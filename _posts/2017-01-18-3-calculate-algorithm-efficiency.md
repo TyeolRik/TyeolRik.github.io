@@ -2,11 +2,11 @@
 layout: post
 title: 3. 알고리즘의 성능분석을 분석하자!
 section-type: post
-category: Data Structure
+category: Data_Structure
 tags:
   - korean
   - theory
-  - data-structure
+  - data_structure
 ---
 
 ## 알고리즘의 성능분석 방법
