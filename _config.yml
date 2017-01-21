@@ -204,3 +204,5 @@ markdown: kramdown
 kramdown:
   input: GFM
   syntax_highlighter: rouge
+
+permalink: /post/:categories/:year/:month/:day/:title/
