@@ -2,6 +2,6 @@
 # www.google.com/support/webmasters/bin/answer.py?hl=en&answer=156449
 
 User-agent: *
-Disallow: /tags/
-Disallow: /categories/
+Disallow: /tags
+Disallow: /categories
 Sitemap: https://tyeolrik.github.io/sitemap.xml
