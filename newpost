@@ -7,11 +7,10 @@ end
 
 date_prefix = Time.now.strftime("%Y-%m-%d")
 postname = ARGV[0].strip.downcase.gsub(/ /, '-')
-post = "C:/jekyll/blog/TyeolRik.github.io/_posts/#{date_prefix}-#{postname}.md"
+post = "C:/jekyll/TyeolRik.github.io/_posts/#{date_prefix}-#{postname}.md"
 
 header = <<-END
 ---
-date: #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}
 layout: post
 title: "#{ARGV[0]}"
 section-type: post
