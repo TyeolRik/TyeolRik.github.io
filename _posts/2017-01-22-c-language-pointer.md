@@ -2,8 +2,10 @@
 layout: post
 title: "[C언어] 포인터란?!"
 section-type: post
+category: C
 tags:
   - korean
+  - c
   - coding
   - pointer
 ---
@@ -14,6 +16,9 @@ tags:
 
 ![C Language Book](/img/assets/c-lang/book-about-c-lang.png)
 
+<font align="center">제목: 뇌를 자극하는 C 프로그래밍<br>
+저자: 서현우<br>
+출판사: 한빛미디어<br>
 구입배경: 대학강의 교재였음</font>
 
 ### 갑자기 왜 Pointer에 대해서 공부하기 시작했을까
@@ -43,6 +48,12 @@ Data Structure를 공부하던 도중에, 실습 예제가 있었다. **배열�
 #include <stdio.h>
 
 int main(void) {
+  char ch = 1;
+  int in = 100;
+  double db = 2.5986;
+  printf("ch의 포인터: %d \n", &ch);
+  printf("in의 포인터: %d \n", &in);
+  printf("db의 포인터: %d \n", &db);
 }
 ```
 
@@ -67,8 +78,17 @@ int main(void) {
 #include <stdio.h>
 
 int main(void) {
+  char ch;
+  int in;
+  double db;
 	
+  *&ch = 'k';
+  *&in = 589;
+  *&db = 1.7892465;
 
+  printf("변수 ch에 저장된 문자: %c \n", ch);
+  printf("변수 in에 저장된 값: %d \n", in);
+  printf("변수 db에 저장된 값: %lf \n", db);
 }
 ```
 
@@ -131,8 +151,19 @@ int a;
 #include <stdio.h>
 
 int main(void) {
+  int in;
+  int *ap, *bp;
 
+  in = 589;
+  ap = &in;
+  bp = &in;
 
+  printf("변수 in의 주소값 : %d \n", ap);
+  printf("변수 in의 주소값 : %d \n", bp);
+  printf("변수 in의 실제값 : %d \n", *ap);
+  printf("변수 in의 실제값 : %d \n", *bp);
+  printf("포인터 ap의 주소값 : %d \n", &ap);
+  printf("포인터 ap의 주소값 : %d \n", &bp);
 }
 ```
 
