@@ -167,6 +167,6 @@ int main(void) {
 }
 ```
 
-![pointer-quiz](/img/assets/c-lang/pointer-quiz.PNg)
+![pointer-quiz](/img/assets/c-lang/pointer-quiz.PNG)
 
 주목해서 봐야할 부분은 포인터의 주소값은 다른데, 같은 값을 참조했다는 사실이다. 즉, 하나의 기억공간을 참조하는 2가지의 포인터는 존재가능하다는 것이다.
