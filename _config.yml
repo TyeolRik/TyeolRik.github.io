@@ -30,9 +30,9 @@ force-https: True
 
 lang: "en"
 author: "TyeolRik"
-title: "{ the World of TyeolRik Life! }"
-description: "Welcome to the world of TyeolRik! Blogging mainly for programming. I am newbie too^^"
-keywords: "android, TyeolRik, personal, java, coding, developer, newbee"
+title: "Hello, TyeolRik"
+description: "Hello, I am TyeolRik, Newbie Developer"
+keywords: "android, TyeolRik, personal, java, coding, developer, newbee, programming, programmer, Computer-Science"
 favicon: "/img/favicon.ico"
 
 ################
