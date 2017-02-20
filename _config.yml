@@ -56,7 +56,7 @@ start-delay: 200
 delete-delay: 5000
 lines: # You can add HTML Tags in the Text
   - text: "Only the Paranoid survive."
-  - text: "Where’s your will to be weird?"
+  - text: "Hack and Connect ALL!"
 
 me-img: "/img/tyeolrik.png"
 
@@ -114,9 +114,12 @@ events:
   - image: "/img/timeline/spidertocat.png"
     date: "January 2017 - Today"
     description: "Saving the developers!"
+  - image: "/img/timeline/tyeolrik_with_mask_156x156.png"
+    date: "January 2017 - Today"
+    description: "Becoming Hacker"
   - image: "/img/timeline/androidgithub.png"
-    date: "October 2016 - Today"
-    description: "Started Android!"
+    date: "October 2016 -<br />January 2017"
+    description: "Learning Android"
   - image: "/img/timeline/baracktocat.jpg"
     date: "March 2015 - Today"
     description: "Learning Coding"
