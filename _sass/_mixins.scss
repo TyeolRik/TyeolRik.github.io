@@ -22,6 +22,14 @@ section#post.container.content-section p {
   margin: 8px;
 }
 
+div#swipe-instruction {
+    div {
+        p {
+            text-align: center !important;
+        }
+    }
+}
+
 section#post.container.content-section li{
     text-align: left;
 }
