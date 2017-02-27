@@ -48,7 +48,7 @@ Alice라는 사람이 Bob에게 양자로 정보를 보내려는 상황이라고
 순수하게 양자를 보내서 정보를 전달하는 방법은 다음과 같다. Alice가 Bob에게 어떤 양자를 보낸다고 하자. 보내고 싶은 광자(양자 중의 한 종류)를 BBO결정을 통과하게 하여 두개의 광자로 분리한다. 두 광자는 본래 하나의 광자이기 때문에 상호관련이 있으며(서로 양자얽힘의 관계에 있다.) 이것은 벨쌍이라는 상태로 표현할 수 있다.
 
 $$
-|Bell = |H \rangle _{Alice} |V \rangle _{Bob} - |V \rangle _{Alice} |H \rangle _{Bob}
+\Large |Bell = |H \rangle _{Alice} |V \rangle _{Bob} - |V \rangle _{Alice} |H \rangle _{Bob}
 $$
 
 위의 수식에 의해서 Alice의 편광을 측정했을 때 H(수평편광)으로 밝혀지면, 양자얽힘 이론에 의해서 Bob의 편광이 V(수직편광)임을 알 수 있고 Alice의 편광이 V(수직편광)으로 밝혀지면, Bob의 편광이 H(수평편광)임을 알 수 있다. 이것을 이용해서 Superdense Coding 이라는 기술을 접목하면 양자원격전송(Quantum Teleportation) 기술을 실현할 수 있다. ~~내용이 너무 어렵다.~~
