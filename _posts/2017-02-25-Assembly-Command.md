@@ -54,6 +54,16 @@ if(Destination.RPL < Source.RPL) {
 이용예시: INC EAX <br />
 위의 명령어 의미는, EAX의 값을 1더해서 EAX에 저장하라는 의미이다.
 
+## L
+
+### LEA
+
+이용예시: LEA EAX, \[EBP-34\] <br />
+위의 명령어 의미는, \[EBP-34\]의 주소값을 EAX에 넣으라는 의미이다. 좌변에는 레지스터만 올 수 있다. MOV는 값 자체를 넣는 반면에 LEA는 주소값을 넣는다.
+
+예를 들어 EBP의 값이 50이고 주소값은 0x0012F3F8 라고 할 때, LEA EAX, \[EBP-34\]를 실행하면 EAX에는 16이 들어가는 것이 아니라 0x0012F3D6 가 들어간다. (0x0012F3F8에서 34를 뺀 주소이다.)
+
+
 ## M
 
 ### MOV
@@ -75,6 +85,13 @@ if(Destination.RPL < Source.RPL) {
 
 이용예시: PUSH EBP <br />
 EBP에 있는 값을 스택에 집어넣는다는 의미이다. 스택은 LIFO 구조라는 것을 명심하자.
+
+## R
+
+### RETN
+
+이용예시: RETN 8 <br />
+stdcall 이란 함수호출규약에서 사용되는 방식이다. 위 명령의 의미는 RETN + POP 8bytes 이다. 즉, 리턴 후 8bytes 만큼 ESP를 증가시켜라는 것이다.
 
 ## T
 
