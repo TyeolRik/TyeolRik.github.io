@@ -63,7 +63,6 @@ if(Destination.RPL < Source.RPL) {
 
 예를 들어 EBP의 값이 50이고 주소값은 0x0012F3F8 라고 할 때, LEA EAX, \[EBP-34\]를 실행하면 EAX에는 16이 들어가는 것이 아니라 0x0012F3D6 가 들어간다. (0x0012F3F8에서 34를 뺀 주소이다.)
 
-
 ## M
 
 ### MOV
@@ -85,6 +84,11 @@ if(Destination.RPL < Source.RPL) {
 
 이용예시: PUSH EBP <br />
 EBP에 있는 값을 스택에 집어넣는다는 의미이다. 스택은 LIFO 구조라는 것을 명심하자.
+
+### PUSHAD
+
+이용예시: PUSHAD <br />
+EAX, EBX, ECX, EDX, ESI, EDI, ESP, EBP 레지스터의 값을 스택에 PUSH한다. 레지스터의 값을 보관해야하거나 백업을 할 때 사용한다. EAX → ECX → EDX → EBX → ESP → EBP → ESI → EDI 순서대로 스택에 들어간다.
 
 ## R
 
