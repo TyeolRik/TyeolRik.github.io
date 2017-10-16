@@ -150,7 +150,7 @@ CAutoStockApp theApp;
 
 ![Imgur](https://i.imgur.com/pn8bWOR.png)
 
-Login 버튼을 누르면 에러가 뜬다. 그 이유는 MFC의 [DDX Control]({{ site.baseurl }}{% link _posts/2017-10-16-what-is-DDX-Control.md %})과 관련되어 있다. DDX Control은 내용이 약간 복잡하고, 본 게시글의 주제와 약간 벗어나기 때문에 따로 작성하도록 하겠다. [링크]({{ site.baseurl }}{% link _posts/2017-10-16-what-is-DDX-Control.md %})참조!
+Login 버튼을 누르면 에러가 뜬다. 그 이유는 MFC의 [DDX Control]({{ site.baseurl }}{% link _posts/2017-04-01-what-is-DDX-Control.md %})과 관련되어 있다. DDX Control은 내용이 약간 복잡하고, 본 게시글의 주제와 약간 벗어나기 때문에 따로 작성하도록 하겠다. [링크]({{ site.baseurl }}{% link _posts/2017-04-01-what-is-DDX-Control.md %})참조!
 
 그러므로, ActiveX와 DDX Control을 연결해보자. AutoStockDlg.cpp 파일에 DoDataExchange() 함수에서 둘을 연결하면 된다.
 
