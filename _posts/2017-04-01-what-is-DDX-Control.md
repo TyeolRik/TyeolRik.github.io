@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "[C++ MFC] DDX / DDV"
+section-type: post
 category: "MFC"
 tags:
   - c++

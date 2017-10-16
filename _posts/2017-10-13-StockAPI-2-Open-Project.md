@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "[키움API with C++] 프로젝트 새로 만들기"
+section-type: post
 category: "Stock_API"
 tags:
   - c++
@@ -49,13 +50,13 @@ tags:
 
 위 사진과 같이 stdafx.h 파일에 다음의 코드를 추가하자. 
 
-```C++
+```cpp
 #include "khopenapictrl1.h"
 ```
 
 ### Active X 추가하기
 
-Active X[^의미]를 추가해보겠다. 리소스 탐색기에서 IDD_AUTOSTOCK_DIALOG ~~제목을 따로 수정하지 않았다는 전제하에~~ 을 열면 다음과 같은 대화상자가 나온다. (처음 프로젝트 생성했을 때 뜨는 창)
+Active X[^1]를 추가해보겠다. 리소스 탐색기에서 IDD_AUTOSTOCK_DIALOG ~~제목을 따로 수정하지 않았다는 전제하에~~ 을 열면 다음과 같은 대화상자가 나온다. (처음 프로젝트 생성했을 때 뜨는 창)
 
 ![Imgur](https://i.imgur.com/tMdKLey.png)
 
@@ -71,7 +72,7 @@ API를 추가했으니, 이에 대응되는 API의 객체를 추가하여야 한
 
 위 사진처럼 프로젝트의 헤더파일(AutoStock.h)에 CKhopenapictrl1 클래스의 객체를 선언하자. 필자는 stock 이라는 이름의 객체를 선언하였다. 모르겠으면 아래의 소스코드를 참조.
 
-```C++
+```cpp
 class CAutoStockApp : public CWinApp
 {
 public:
@@ -92,7 +93,7 @@ public:
 
 API를 프로그램에 내장하는 것까지 완성했다. 이제, 로그인 창을 구현해보자. 로그인 이라는 버튼을 만들고, 이벤트함수를 처리해보겠다.
 
-일단 보기싫으니깐 TODO\: 여기에 대화 상자 컨트롤을 배치합니다. 라는 문구는 제거하겠다. 우리에게 불필요한 \"확인\"\, \"취소\"버튼을 삭제하고 새로 버튼을 만들어서, 진행해보겠다.
+일단 보기싫으니깐 TODO\: 여기에 대화 상자 컨트롤을 배치합니다. 라는 문구는 제거하겠다. 우리에게 불필요한 \"확인\", \"취소\"버튼을 삭제하고 새로 버튼을 만들어서, 진행해보겠다.
 
 ![Imgur](https://i.imgur.com/HtxIHrb.png)
 
@@ -108,7 +109,7 @@ API를 프로그램에 내장하는 것까지 완성했다. 이제, 로그인 �
 
 위의 사진처럼 (자동으로 열린) AutoStockDlg.cpp 파일의 OnBnClickedButton1 함수에 다음과 같은 코드를 작성한다. login_flag는 CommConnect() 함수의 return 값을 저장하기 위해서 선언했다.
 
-```C++
+```cpp
 void CAutoStockDlg::OnBnClickedButton1()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
@@ -125,19 +126,19 @@ void CAutoStockDlg::OnBnClickedButton1()
 
 공부하는 차원이니만큼 login_flag = theApp.stock.CommConnect(); 라인을 분석해보도록 하겠다. theApp 안의 객체 stock안에 있는 CommConnect 함수를 실행해서 그 return 값을 login_flag라는 변수에 넣겠다는 의미이다. 그렇다면, stock 값은 제일 처음에 API를 설정하고, 헤더파일(AutoStock.h)에 넣는 과정에서 CAutoStockApp 이라는 클래스에 변수를 할당했다.
 
-```C++
+```cpp
 CKhopenapictrl1 stock;		// 키움증권 API 객체
 ```
 
 이런 식으로 말이다. 그러므로 CKhopenapictrl1 안에 CommConnect 함수가 존재한다는 사실을 유추할 수 있다. 그런데, 궁금한 것은 theApp은 무엇이냐는 의문이 생긴다. 알아보니, theApp 은 MFC 기반에서 고정된 어플리케이션 이름이라고 한다. 다시 AutoStock.h 헤더파일을 보면, 아래와 같이 extern CAutoStockApp theApp 이라는 코드가 마지막에 있다.
 
-```C++
+```cpp
 extern CAutoStockApp theApp;
 ```
 
 extern 이라는 키워드는 전역을 나타낸다고 한다. 고로, 외부 모듈 어딘가에 CAutoStockApp 이라는 클래스형으로 theApp이라는 변수가 존재한다는 의미가 된다. 하지만, 헤더파일에서의 선언이기 때문에 실제로 메모리를 할당받는 것이 아니다. 고로, cpp 파일(AutoStock.cpp)에서 변수를 실제로 선언하게 된다. 다음과 같이 말이다.
 
-```C++
+```cpp
 // 유일한 CAutoStockApp 개체입니다.
 CAutoStockApp theApp;
 ```
@@ -150,7 +151,7 @@ CAutoStockApp theApp;
 
 ![Imgur](https://i.imgur.com/pn8bWOR.png)
 
-Login 버튼을 누르면 에러가 뜬다. 그 이유는 MFC의 [DDX Control]({{ site.baseurl }}{% link _posts/2017-04-01-what-is-DDX-Control.md %})과 관련되어 있다. DDX Control은 내용이 약간 복잡하고, 본 게시글의 주제와 약간 벗어나기 때문에 따로 작성하도록 하겠다. [링크]({{ site.baseurl }}{% link _posts/2017-04-01-what-is-DDX-Control.md %})참조!
+Login 버튼을 누르면 에러가 뜬다. 그 이유는 MFC의 [DDX Control]({{ site.baseurl }}{% link _posts/2017-04-01-what-is-DDX-Control.md %})[^2]과 관련되어 있다. DDX Control은 내용이 약간 복잡하고, 본 게시글의 주제와 약간 벗어나기 때문에 따로 작성하도록 하겠다. [링크]({{ site.baseurl }}{% link _posts/2017-04-01-what-is-DDX-Control.md %})참조!
 
 그러므로, ActiveX와 DDX Control을 연결해보자. AutoStockDlg.cpp 파일에 DoDataExchange() 함수에서 둘을 연결하면 된다.
 
@@ -158,7 +159,7 @@ Login 버튼을 누르면 에러가 뜬다. 그 이유는 MFC의 [DDX Control]({
 
 위의 사진 처럼 코드를 추가해주자.
 
-```C++
+```cpp
 void CAutoStockDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
@@ -179,9 +180,9 @@ DDX_Control 함수는 3개의 인자를 가지고 있는데, 첫 번째 인수�
 
 
 
+-------------------------
 
 
+[^1]: ActiveX의 의미에 대해서는 [나무위키](https://namu.wiki/w/ActiveX)를 참조
 
-[^의미]: ActiveX의 의미에 대해서는 [나무위키](https://namu.wiki/w/ActiveX)를 참조
-
-[^DDX의미]: DDX Control이란 Dialog Data eXchange의 약자로, 화면(Dialog)과 변수(cpp 내의 데이터)간의 데이터 교환을 돕는 역할을 한다. 자세한 내용은 [MSDN 문서](https://docs.microsoft.com/ko-kr/cpp/mfc/dialog-data-exchange)를 참조.
+[^2]: DDX Control이란 Dialog Data eXchange의 약자로, 화면(Dialog)과 변수(cpp 내의 데이터)간의 데이터 교환을 돕는 역할을 한다. 자세한 내용은 [MSDN 문서](https://docs.microsoft.com/ko-kr/cpp/mfc/dialog-data-exchange)를 참조.
