@@ -43,3 +43,19 @@ section#post.container.content-section li{
     margin: 0 auto;
     display: block;
 }
+
+.blog-category {
+    width: 80% !important;
+    margin: auto;
+    word-break: normal;
+    text-align: center !important;
+    word-spacing: 1.5em;
+    
+    small::before {
+        content: "";
+    }
+
+    small:first-child::before {
+        content: "";
+    }
+}

@@ -19,26 +19,26 @@
 
         {{ page.content | markdownify }}
 
-        <div>
-            <h4>
-                {% assign categories_list = site.categories %}
-                    {% if categories_list.first[0] == null %}
-                        {% for category in categories_list %}
-                            <small>
-                                <a class="category" href="{{site.baseurl}}/categories/{{ category | downcase }}.html">{{ category | capitalize }} ({{ site.tags[category].size }})</a>
-                            .</small>
-                        {% endfor %}
-                    {% else %}
-                        {% for category in categories_list %}
-                            <small>
+            <div class="blog-category">
+                <h4>
+                    {% assign categories_list = site.categories %}
+                        {% if categories_list.first[0] == null %}
+                            {% for category in categories_list %}
+                                <small>
+                                    <a class="category" href="{{site.baseurl}}/categories/{{ category | downcase }}.html">{{ category | capitalize }} ({{ site.tags[category].size }})</a>
+                                .</small>
+                            {% endfor %}
+                        {% else %}
 <!-- The Reason why there is no indent for clear sight is whitespace -->
-                                <a class="category" href="{{site.baseurl}}/categories/{{ category[0] | downcase }}.html">{{ category[0] | capitalize }}</a><!-- If you want to add the post count next to the category name, put this ({{ category[1].size }}) next to the  {{ category[0] | capitalize }}-->{% capture category_index %}{{ forloop.index | modulo: 6 }}{% endcapture %}{% if category_index == '0' %}<br>{% else %}&nbsp|{% endif %}
-                            </small>
-                        {% endfor %}
-                    {% endif %}
-                {% assign categories_list = nil %}
-            </h4>
-        </div>
+                            {% for category in categories_list %}
+                                <small>
+                                    <a class="category" href="{{site.baseurl}}/categories/{{ category[0] | downcase }}.html">{{ category[0] | capitalize }}</a><!-- If you want to add the post count next to the category name, put this ({{ category[1].size }}) next to the  {{ category[0] | capitalize }}-->
+                                </small>
+                            {% endfor %}
+                        {% endif %}
+                    {% assign categories_list = nil %}
+                </h4>
+            </div>
 
         <div>
           {% for post in paginator.posts %}
