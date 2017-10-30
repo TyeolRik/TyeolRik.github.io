@@ -19,7 +19,7 @@
 
         {{ page.content | markdownify }}
 
-            <div class="blog-category">
+            <div id="blog-category">
                 <h4>
                     {% assign categories_list = site.categories %}
                         {% if categories_list.first[0] == null %}
