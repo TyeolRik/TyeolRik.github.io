@@ -11,7 +11,7 @@ tags:
 
 일부 스마트폰의 경우에는 하드웨어에 홈키와 백버튼 등이 없는 경우가 있다. 그런 경우에는 화면 가장 하단에 터치가 가능한 홈키와 백버튼이 존재하는데 그런 키를 SoftKey(소프트키) 라고 한다. Android의 개발의 상황에서는 그 키들을 Navigation Bar 라고 부른다. ~~Navigation Bar에 대해서는 아직 부정확하다.~~
 
-디자인적인 시각에서 볼 때, Cold start[^1] 시에 [Splash Image](https://www.bignerdranch.com/blog/splash-screens-the-right-way/)[^2]를 이용해서 로딩화면을 구현할 때, 로딩화면과 실질적으로 처음 Activity의 백그라운드가 같을 수 있다. 그 때, 로딩화면은 상단바(Status Bar)와 네비게이션바(SoftKey)가 나오지 않는 전체화면이지만, 로딩이후 첫 Activity는 (따로 설정하지 않는 이상) 둘다 존재하기 때문에 이미지의 중심이 이동되는 현상이 생길 수 있다. 즉, UI적인 측면에서 순간적으로 이미지가 잠깐 움직이기 때문에 아름답지 못하다는 것이다.
+디자인적인 시각에서 볼 때, [Cold start](https://developer.android.com/topic/performance/launch-time.html#cold) 시에 [Splash Image](https://www.bignerdranch.com/blog/splash-screens-the-right-way/)를 이용해서 로딩화면을 구현할 때, 로딩화면과 실질적으로 처음 Activity의 백그라운드가 같을 수 있다. 그 때, 로딩화면은 상단바(Status Bar)와 네비게이션바(SoftKey)가 나오지 않는 전체화면이지만, 로딩이후 첫 Activity는 (따로 설정하지 않는 이상) 둘다 존재하기 때문에 이미지의 중심이 이동되는 현상이 생길 수 있다. 즉, UI적인 측면에서 순간적으로 이미지가 잠깐 움직이기 때문에 아름답지 못하다는 것이다.
 
 ![Imgur](https://i.imgur.com/1DL8adz.png)
 
