@@ -13,10 +13,12 @@ tags:
 
 핸드폰으로 바코드, QR코드 등을 인식할 수 있는 어플들이 세상에 수없이 많다. 그것을 이용해서 나만의 어플을 만들어야할 경우도 종종 생긴다. 구글에서는 이런 문제를 해결하기 위해서[ Google Mobile Vision](https://developers.google.com/vision/)이라는 API를 제공하고 있다. 이번 글은 Google Mobile Vision API를 사용하는 방법에 대해서 알아보도록 하겠다.
 
+예제에서 사용된 코드 전문은 [Github](https://github.com/TyeolRik/BarcodeScanTest)에 있으니 참고바란다.
+
 ## Google Mobile Vision
 
 > Find objects in photos and video, using real-time on-device vision technology.
-> 기기에서의 실시간 영상 기술을 이용해서 사진이나 동영상 속의 물체를 찾는 것
+> <br/>기기에서의 실시간 영상 기술을 이용해서 사진이나 동영상 속의 물체를 찾는 것
 
 위에서 모든 설명이 나와 있지만 다시 한번 말하자면, 실시간으로 사진이나 물체 속의 목표물(?)을 쉽게 인식할 수 있다. ~~그만큼 쿼리가 빠르다고 이해하면 될 것 같다.~~ 아쉬운 점은 아무래도 내가 **문서** 라는 것에 익숙치가 않아서 그런지 사용법을 몰라서 한참 해맸다. 아, 물론 Github에 [Code sample](https://github.com/googlesamples/android-vision)이 있어서 한참 들여다보니 사용할 수는 있었다. 좀더 좋은 방법이나 구글이 원하는(?) 방법을 알고싶다면 Sample 링크에 들어가서 확인해보는 것이 정신건강에 더 유익할 것이라고 생각된다.
 
@@ -128,7 +130,7 @@ dependencies {
 여러 개발자들의 블로그 포스트를 읽어보면 ```com.google.android.gms:play-services```를 implementation(또는 compile) 하는 경우가 있다. 물론, 작동은 잘 된다. 그러나, 구글은 공식적으로 위와 같은 코드를 사용하는 것을 **지양** 하고 있다. 다음은 이에 대한 공식 홈페이지에서의 설명이다.
 
 > Don't use the combined play-services target. It brings in dozens of libraries, bloating your application. Instead, specify only the specific Google Play services APIs your app uses.
-> play-services 전체(묶음)를 가져오지 마세요. 그것은 수많은 라이브러리를 가지고 있고, 당신의 앱을 부풀립니다. 대신에 당신의 앱에서 사용하는 특정한 Google Play services API를 구체적으로 명시하세요.
+> <br/>play-services 전체(묶음)를 가져오지 마세요. 그것은 수많은 라이브러리를 가지고 있고, 당신의 앱을 부풀립니다. 대신에 당신의 앱에서 사용하는 특정한 Google Play services API를 구체적으로 명시하세요.
 
 즉, play-services는 수많은 API의 묶음으로 되어 있기 때문에 본 앱에 필요하지 않는 것들도 같이 가져오게 된다는 것이다. 고로, 앱의 크기는 커질 수 밖에 없고, 속도는 느려진다는 것이다. 고로, 우리는 본 앱에서 사용할 Google Mobile Vision API 인 ```com.google.android.gms:play-services-vision```만 가져오자.
 
@@ -221,7 +223,8 @@ public class QRCodeScan extends Activity {
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
                 try {   // try-catch 문은 Camera 권한획득을 위한 권장사항
-                    if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) 
+                                == PackageManager.PERMISSION_GRANTED) {
                         cameraSource.start(cameraSurface.getHolder());  // Mobile Vision API 시작
                         return;
                     }
@@ -273,4 +276,6 @@ public class QRCodeScan extends Activity {
 
 ![Imgur](https://i.imgur.com/iW8ZAqz.png)
 
-필자는 인식이 되면 ```Log.d("Detection", barcodeContents);``` 를 통해서 인식된 바코드의 내용을 출력하도록 했는데, 위의 사진처럼 겁나겁나 많이 뜬다.
+필자는 인식이 되면 ```Log.d("Detection", barcodeContents);``` 를 통해서 인식된 바코드의 내용을 출력하도록 했는데, 위의 사진처럼 겁나겁나 많이 뜬다. 이상으로 포스트를 마치겠다.
+
+[Github에서 전체 코드 보기](https://github.com/TyeolRik/BarcodeScanTest)
