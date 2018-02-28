@@ -111,6 +111,9 @@ syntax-highlight: True
 ############
 
 events:
+  - image: "/img/timeline/hangman_cut_firstpage.png"
+    date: "December 2017 - <br />March 2018"
+    description: "Develop Oxygen Bottle Manage App"
   - image: "/img/timeline/spidertocat.png"
     date: "January 2017 - Today"
     description: "Saving the developers!"
@@ -126,7 +129,7 @@ events:
 
 # First image of the Timeline
 
-timeline-img: "/img/timeline/default.png"
+timeline-img: "/img/timeline/default_tyeolrik.png"
 
 ###########
 # Contact #
