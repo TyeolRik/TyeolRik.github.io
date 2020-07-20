@@ -111,19 +111,13 @@ syntax-highlight: True
 ############
 
 events:
+  - image: "/img/timeline/Server-B-Icon-156px.png"
+    date: "Febuary 2020 - <br /> June 2020"
+    description: "Develop Cloud Web Services with Openstack"
   - image: "/img/timeline/hangman_cut_firstpage.png"
     date: "December 2017 - <br />March 2018"
     description: "Develop Oxygen Bottle Manage App"
-  - image: "/img/timeline/spidertocat.png"
-    date: "January 2017 - Today"
-    description: "Saving the developers!"
   - image: "/img/timeline/tyeolrik_with_mask_156x156.png"
-    date: "January 2017 - Today"
-    description: "Becoming Hacker"
-  - image: "/img/timeline/androidgithub.png"
-    date: "October 2016 -<br />January 2017"
-    description: "Learning Android"
-  - image: "/img/timeline/baracktocat.jpg"
     date: "March 2015 - Today"
     description: "Learning Coding"
 
@@ -210,3 +204,6 @@ markdown: kramdown
 kramdown:
   input: GFM
   syntax_highlighter: rouge
+
+# Additional
+plugins: [jekyll-paginate]

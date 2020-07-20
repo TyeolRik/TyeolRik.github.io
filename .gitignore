@@ -17,3 +17,6 @@ _deploy/*
 Rakefile
 .jekyll-metadata
 /.idea/
+
+# Jekyll Cache
+.jekyll-cache/
