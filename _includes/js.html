@@ -159,7 +159,7 @@ function addTohistory() {
 
 <!-- Gesture Navigation / Swipe Instruction Start -->
 {% if site.enable-gesture-navigation %}
-
+  
   {% if page.section-type == "post" %}
 
     <!-- Post Gesture Navigation Start -->
@@ -168,7 +168,7 @@ function addTohistory() {
 
     <script>
       var post = document.getElementById('post');
-
+      console.log(site.enable-gesture-navigation)
       new Hammer(post).on('swipeleft', function(event) {
         addTohistory();
         {% if site.baseurl == "" and page.previous == nil %}
@@ -264,7 +264,6 @@ function addTohistory() {
   {% endif %}
 
 <!-- Gesture Navigation / Swipe Instruction End -->
-
 {% endif %}
 
 <!-- Javascript End -->

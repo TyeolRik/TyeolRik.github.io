@@ -85,7 +85,7 @@ icon-192p: "/img/web-app/owl-192p.png"
 # Blog #
 ########
 
-enable-gesture-navigation: True
+enable-gesture-navigation: False # TyeolRik Configured
 
 post-preview-words: 70
 

@@ -1,26 +1,91 @@
 #!/usr/bin/env ruby
 
+```
+--- HOW TO USE ---
+In Windows,
+> ruby newpost "Category Title"
+Only First word is regarded as category. After second word, all is substring of title.
+This Ruby Script look up your blog posts (./_posts/*.md) and count how many article with same category.
+This returns YYYY-MM-DD-category-number-title.md file.
+```
+
 unless ARGV[0]
-  puts 'Usage: newpost "the post title"'
+  puts 'Usage: newpost "Category postTitle"'
+  puts "It doesn't matter whether uppercase or not."
   exit(-1)
 end
 
-date_prefix = Time.now.strftime("%Y-%m-%d")
-postname = ARGV[0].strip.downcase.gsub(/ /, '-')
-post = "C:/jekyll/TyeolRik.github.io/_posts/#{date_prefix}-#{postname}.md"
+date_prefix = Time.now.strftime("%Y-%m-%d") # String would be YYYY-MM-DD like 2020-07-20
+postCategory = ARGV[0].split(' ', 2)[0].strip # From "Category postTitle", this extracts "Category".
+postNumberInCategory = 1                    # Default Number is 1
 
-header = <<-END
+# According to https://stackoverflow.com/a/13511455/7105963
+# File name should be lowercase. Because it hurts SEO ranking.
+filename = ARGV[0].split(' ', 2)[1].strip.downcase.gsub(/ /, '-') 
+
+titlename = ARGV[0].split(' ', 2)[1].strip
+
+# Get Post Number in Category
+existsPosts = Dir["./_posts/*"]
+# Calculate postNumberInCategory
+for each in existsPosts
+    each = each.gsub("./_posts/", "") # Remove substring from Directory file name
+    eachCategory = each.split('-')[3] # All Post file should be YYYY-MM-DD-Category-Number-filename.md. We need "Category"
+    if eachCategory.downcase.eql? postCategory.downcase # For safe, compare with downcase.
+        postNumberInCategory = postNumberInCategory + 1 # Count the number of posts with Category.
+    end
+end
+
+# Calculate is over.
+post = "./_posts/#{date_prefix}-#{postCategory.downcase}-#{postNumberInCategory}-#{filename}.md"
+
+header = 0
+
+# Category for comfort
+case postCategory
+
+when "Journal"
+  titlename = "[논문요약] #{titlename}"
+  header = <<-END
 ---
 layout: post
-title: "#{ARGV[0]}"
+title: "#{titlename}"
 section-type: post
-category: Category
-tags: [ 'tag1', 'tag2' ]
+category: #{postCategory}
+tags:
+  - tag1
+  - tag2
+---
+
+## Author
+
+<p style="text-align: center;">Mark Zuckerberg, Bill Gates, Larry Page, Steve Wozniak, Elon Musk</p>
+
+<p style="text-align: center;">in <i>Some Laboratory or University</i></p>
+<br><br>
+Original Link: [Where did I find](https://web.stanford.edu/~ouster/cgi-bin/papers/ramcloud.pdf)<br>
+Archived Link: [Download in Google Drive](https://drive.google.com/file/d/14W9_7I734yKBpeVaPptRjw0lJ0DdhtXl/view?usp=sharing)
+
+## 필자요약
+
+END
+else
+  titlename = "[#{postCategory}] #{titlename}"
+  header = <<-END
+---
+layout: post
+title: "#{titlename}"
+section-type: post
+category: #{postCategory}
+tags:
+  - tag1
+  - tag2
 ---
 END
+end
 
 File.open(post, 'w') do |f|
   f << header
 end
 
-system("atom", post)
+# system("atom", post) # Deprecated because Now I am using Visual Studio Code
