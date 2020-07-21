@@ -1,13 +1,13 @@
 #!/usr/bin/env ruby
 
-```
+=begin
 --- HOW TO USE ---
 In Windows,
 > ruby newpost "Category Title"
 Only First word is regarded as category. After second word, all is substring of title.
 This Ruby Script look up your blog posts (./_posts/*.md) and count how many article with same category.
 This returns YYYY-MM-DD-category-number-title.md file.
-```
+=end
 
 unless ARGV[0]
   puts 'Usage: newpost "Category postTitle"'
