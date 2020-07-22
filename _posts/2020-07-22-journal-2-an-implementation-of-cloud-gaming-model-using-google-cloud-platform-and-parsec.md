@@ -4,8 +4,11 @@ title: "[논문요약] An Implementation of cloud gaming model using Google clou
 section-type: post
 category: Journal
 tags:
-  - tag1
-  - tag2
+  - game
+  - cloud
+  - stadia
+  - xcloud
+  - psnow
 ---
 
 ## Author
