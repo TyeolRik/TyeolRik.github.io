@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "[논문요약] The Case for RAMClouds - Scalable High-Performance Storage Entirely in DRAM"
+title: "[논문리뷰] The Case for RAMClouds - Scalable High-Performance Storage Entirely in DRAM"
 section-type: post
 category: Journal
 tags:

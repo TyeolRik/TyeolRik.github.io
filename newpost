@@ -45,7 +45,7 @@ header = 0
 case postCategory
 
 when "Journal"
-  titlename = "[논문요약] #{titlename}"
+  titlename = "[논문리뷰] #{titlename}"
   header = <<-END
 ---
 layout: post
@@ -67,6 +67,14 @@ Original Link: [Where did I find](https://web.stanford.edu/~ouster/cgi-bin/paper
 Archived Link: [Download in Google Drive](https://drive.google.com/file/d/14W9_7I734yKBpeVaPptRjw0lJ0DdhtXl/view?usp=sharing)
 
 ## 필자요약
+
+## Introduction
+
+
+<br>
+<br>
+<br>
+<hr/>
 
 END
 else

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "[논문요약] An Implementation of cloud gaming model using Google cloud platform and Parsec"
+title: "[논문리뷰] An Implementation of cloud gaming model using Google cloud platform and Parsec"
 section-type: post
 category: Journal
 tags:
