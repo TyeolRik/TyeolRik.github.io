@@ -44,7 +44,7 @@ header = 0
 # Category for comfort
 case postCategory
 
-when "Journal"
+when "Journal", "journal"
   titlename = "[논문리뷰] #{titlename}"
   header = <<-END
 ---
