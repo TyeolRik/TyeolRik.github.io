@@ -132,19 +132,19 @@ $p > q$라고 해보자. 공격자가 따라잡아야하는 블록 수가 많을
 수취인은 블록에 거래가 추가되고 $z$ 블록이 연결될 때까지 기다린다. 그는 공격자가 얼마나 진척이 있었는지는 모른다. 정직한 블록이 블록당 평균 예상 시간을 따른다고 가정하면, 공격자의 잠재적 진척도는 기대값을 갖는 푸아송(Poisson) 분포가 될 것이다.
 
 $$
-\LARGE\lambda=z\frac{q}{p}
+\LARGE \lambda=z\frac{q}{p}
 $$
 
 현재 공격자가 따라잡을 수 있는 확률을 계산하기 위해서 해당 시점부터 따라잡을 수 있는 확률로 만들어낼 각 진척 규모별 푸아송 밀도를 곱한다.
 
 $$
-\LARGE\sum_{k=0}^{\infty} \frac{\lambda^k e^{-k}}{1} \cdot \begin{Bmatrix}(q/p)^{(z-k)} & if \quad k \leq z \\\ 1 & if \quad k>z\end{Bmatrix}
+\LARGE \sum_{k=0}^{\infty} \frac{\lambda^k e^{-k}}{1} \cdot \begin{Bmatrix}(q/p)^{(z-k)} & if \quad k \leq z \\\ 1 & if \quad k>z\end{Bmatrix}
 $$
 
 분포의 무한 꼬리 합(the infinite tail of the distribution)을 피하기 위해 정렬하면,
 
 $$
-\LARGE1 - \sum_{k=0}^{z} \frac{\lambda^k e^{-\lambda}}{k!} (1-(q/p)^{(z-k)})
+\LARGE 1 - \sum_{k=0}^{z} \frac{\lambda^k e^{-\lambda}}{k!} (1-(q/p)^{(z-k)})
 $$
 
 그리고 C언어로 계산하여 기하급수적으로 감소함을 밝혔다. (생략)
