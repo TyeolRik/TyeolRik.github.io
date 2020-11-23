@@ -29,9 +29,9 @@ tags:
 
 [알고리즘의 판단 기준]({{ site.baseurl }}{% link _posts/2018-05-02-AI-1-Search-Algorithm.md %})[^1]을 살펴보자. 일단 이 알고리즘은 Complete하다. 만약, Shallowest goal node[^2]를 적절한 Depth를 나타내는 $d$라고 해보자. 그리고 이 Tree 구조의 Branch Factor를 $b$라고 해보자. Depth = 1에서 $b$개의 자식노드가 생길거고 그 아래에서는 $b^2$개, 그 아래에서는 $b^3$개 ... 이렇게 계속 이어져가나서 결국에는 Shallowest goal node인 Depth = $d$까지 내려갈 것이다. 그 때의 모든 노드의 갯수는 다음과 같다.
 
-$$
-\LARGE b + b^{2} + b^{3} + \cdots + b^{d} = O(b^{d})
-$$
+++
+b + b^{2} + b^{3} + \cdots + b^{d} = O(b^{d})
+++
 
 정확히는 $O(b^{d+1})$이다. 왜냐하면, 최악의 상황을 가정하기 때문인데, 진짜 최악의 상황에서 트리의 제--일 오른쪽 끝의 노드가 Shallowest goal node 라고 할 때, 그 이전의 좌측 노드들은 Frontier가 되므로 또 $b$개의 Child node를 계속 생성해나갈 것이다. 고로, 사실 실제로 트리구조의 Depth는 $d+1$까지이다.
 
@@ -77,9 +77,9 @@ Depth-first Search의 변종으로 **Backtracking Search**라는 것이 있는�
 
 눈으로 보기에는 ```Limit++``` 될 때마다 계속적으로 중복된 State를 생성하기 때문에 비효율적인 알고리즘으로 생각하기 쉽다. 그러나, 이 알고리즘에서 사용된, 중복된 상위 노드를 생성해내는 것은 생각보다 비용이 크지 않다. 왜냐하면, 대부분의 노드는 하위에 존재하기 때문이다. 이 Iterative deepening search의 경우에는 가장 말단 노드인 Depth $d$의 위치에서는 딱 한번만 생성되고 $d-1$의 위치에서는 2번 생성되고 이렇게 올라가서 최 상위 루트 노드에서는 $d$번 생성된다. 최악의 경우를 상정했을 때는 노드의 수가 다음과 같은 공식을 갖게 된다.
 
-$$
-\LARGE N(\text{IDS}) = (d)b + (d-1)b^2 + \dots + (1)b^d
-$$
+++
+N(\text{IDS}) = (d)b + (d-1)b^2 + \dots + (1)b^d
+++
 
 사실 이것도 Time-complexity로는 $O(b^d)$이다. 왜냐하면, 앞에 곱해지는 상수의 값이 그렇게 크지 않아서 무시할 수 있기 때문이다. 그러므로 일반적으로 **Iterative deepening search가 Search space가 넓고 Solution의 Depth를 모를 때 가장 선호되는 Uninformed Search Method이다.** 그러나, 만약에 진짜로 반복 작업에 대해서 고려해야할 수준이라면, 약간 섞어서 사용할 수 있는 메모리 상에서는 Breath-first Search를 사용하고, 다 써버리면 그 상태의 Frontier에서 Iterative deepening search를 사용하는 알고리즘을 짤 수는 있다. ~~알고리즘이 복잡해질 뿐이다.~~
 
