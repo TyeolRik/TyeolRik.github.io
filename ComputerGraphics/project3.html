@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Project 3 - Baek SeungRok - Compute Graphics, Univ. of Seoul</title>
+        <style>
+        html, body {
+            margin: 0;
+            height: 100%;
+        }
+        #webgl {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+		#assets { display: none; }
+		#canvas { display: none; }
+        </style>
+	</head>
+	<body>
+		<div id="assets"><img id="landscape-image" src="./project3_assets/043-ue4-heightmap-guide-02.jpg"/></div>
+        <canvas id="canvas"></canvas>
+        <div id="GameVisionContainer" style="float: left; background-color: #D3D3D3;">
+            <div id="GameVision" style="height: 100%; float: left;">
+                
+            </div>
+            <div id="ControlPanel" style="height: 100%; float: left; width: 15em; position: relative;">
+                <div style="width: 100%; height: 5em; display:flex; align-items: flex-end; background-color: #D3D3D3;">
+                    <div id="ammo" style="width: 100%; position: absolute; text-align: center; font-size: 3em; font-weight: bold;"> AMMO </div>
+                </div>
+                <div style="width: 100%; height: 7em; display:flex; align-items: flex-start; background-color: #D3D3D3;">
+                    <div id="ammoLeft" style="width: 100%; position: absolute; text-align: center; font-size: 4em; font-weight: bold;"> 8 / 8 </div>
+                </div>
+                <div style="width: 100%; height: 3em; display:flex; align-items: center; background-color: #D3D3D3;">
+                    <hr width="100%" size=15>
+                </div>
+                <div style="width: 100%; height: 3em; display:flex; align-items: center; background-color: #D3D3D3;">
+                    <div style="width: 100%; position: absolute; text-align: center; font-size: 1em;"><b>Chopper Movement</b></div>
+                </div>
+                <div id="chopperLeft" style="width: 100%; height: 3em; display:flex; align-items: center; background-color: #D3D3D3;">
+                    <div style="width: 100%; position: absolute; text-align: center; font-size: 1em;"> LEFT ArrowLeft </div>
+                </div>
+                <div id="chopperRight" style="width: 100%; height: 3em; display:flex; align-items: center; background-color: #D3D3D3;">
+                    <div style="width: 100%; position: absolute; text-align: center; font-size: 1em;"> RIGHT ArrowRight </div>
+                </div>
+                <div id="chopperForward" style="width: 100%; height: 3em; display:flex; align-items: center; background-color: #D3D3D3;">
+                    <div style="width: 100%; position: absolute; text-align: center; font-size: 1em;"> FORWARD ArrowUp </div>
+                </div>
+                <div id="chopperBackward" style="width: 100%; height: 3em; display:flex; align-items: center; background-color: #D3D3D3;">
+                    <div style="width: 100%; position: absolute; text-align: center; font-size: 1em;"> BACKWARD ArrowDown </div>
+                </div>
+                <div id="chopperShoot" style="width: 100%; height: 3em; display:flex; align-items: center; background-color: #D3D3D3;">
+                    <div style="width: 100%; position: absolute; text-align: center; font-size: 1em;"> SHOOT Spacebar </div>
+                </div>
+                <div style="width: 100%; height: 3em; display:flex; align-items: center; background-color: #D3D3D3;">
+                    <hr width="100%" size=15>
+                </div>
+                <div style="width: 100%; height: 3em; display:flex; align-items: center; background-color: #D3D3D3;">
+                    <div style="width: 100%; position: absolute; text-align: center; font-size: 1em;"><b>Camera Movement</b></div>
+                </div>
+                <div id="RotateLeft1" style="width: 100%; height: 1.8em; display:flex; align-items: flex-end; background-color: #D3D3D3; ">
+                    <div style="width: 100%; position: absolute; text-align: center; font-size: 1em;"> Rotate Left </div>
+                </div>
+                <div id="RotateLeft2" style="width: 100%; height: 1.8em; display:flex; align-items: flex-start; background-color: #D3D3D3;">
+                    <div style="width: 100%; position: absolute; text-align: center; font-size: 1em;"> Shift + ArrowLeft </div>
+                </div>
+                <div id="RotateRight1" style="width: 100%; height: 1.8em; display:flex; align-items: flex-end; background-color: #D3D3D3; ">
+                    <div style="width: 100%; position: absolute; text-align: center; font-size: 1em;"> Rotate Right </div>
+                </div>
+                <div id="RotateRight2" style="width: 100%; height: 1.8em; display:flex; align-items: flex-start; background-color: #D3D3D3;">
+                    <div style="width: 100%; position: absolute; text-align: center; font-size: 1em;"> Shift + ArrowRight </div>
+                </div>
+                <div id="TiltUp1" style="width: 100%; height: 1.8em; display:flex; align-items: flex-end; background-color: #D3D3D3; ">
+                    <div style="width: 100%; position: absolute; text-align: center; font-size: 1em;"> Tilt Up </div>
+                </div>
+                <div id="TiltUp2" style="width: 100%; height: 1.8em; display:flex; align-items: flex-start; background-color: #D3D3D3;">
+                    <div style="width: 100%; position: absolute; text-align: center; font-size: 1em;"> Shift + ArrowUp </div>
+                </div>
+                <div id="TiltDown1" style="width: 100%; height: 1.8em; display:flex; align-items: flex-end; background-color: #D3D3D3; ">
+                    <div style="width: 100%; position: absolute; text-align: center; font-size: 1em;"> Tilt Down </div>
+                </div>
+                <div id="TiltDown2" style="width: 100%; height: 1.8em; display:flex; align-items: flex-start; background-color: #D3D3D3;">
+                    <div style="width: 100%; position: absolute; text-align: center; font-size: 1em;"> Shift + ArrowDown </div>
+                </div>
+                <div id="ZoomIN1" style="width: 100%; height: 1.8em; display:flex; align-items: flex-end; background-color: #D3D3D3; ">
+                    <div style="width: 100%; position: absolute; text-align: center; font-size: 1em;"> Zoom in </div>
+                </div>
+                <div id="ZoomIN2" style="width: 100%; height: 1.8em; display:flex; align-items: flex-start; background-color: #D3D3D3;">
+                    <div style="width: 100%; position: absolute; text-align: center; font-size: 1em;"> + </div>
+                </div>
+                <div id="ZoomOUT1" style="width: 100%; height: 1.8em; display:flex; align-items: flex-end; background-color: #D3D3D3; ">
+                    <div style="width: 100%; position: absolute; text-align: center; font-size: 1em;"> Zoom out </div>
+                </div>
+                <div id="ZoomOUT2" style="width: 100%; height: 1.8em; display:flex; align-items: flex-start; background-color: #D3D3D3;">
+                    <div style="width: 100%; position: absolute; text-align: center; font-size: 1em;"> - </div>
+                </div>
+            </div>
+        </div>
+        
+        <script>
+            var GameVision = document.getElementById("GameVision");
+            var GameVisionContainer = document.getElementById("GameVisionContainer");
+            GameVision.style.width = GameVisionContainer.style.height;
+            window.onresize = function () {
+                    GameVision.style.width = GameVisionContainer.style.height;
+                };
+        </script>
+        <script type="module" type="text/javascript" src="./project3_js/terrain.js"></script>
+	</body>
+</html>
