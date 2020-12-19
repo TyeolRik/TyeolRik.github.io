@@ -177,6 +177,8 @@ renderer.setSize(window.innerHeight, window.innerHeight);
 var GameVision = document.getElementById("GameVision");
 GameVision.appendChild(renderer.domElement);
 
+const controls = new OrbitControls( camera, renderer.domElement );
+controls.update();
 
 // Chopper
 var rotorHead;
