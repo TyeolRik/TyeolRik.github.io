@@ -358,7 +358,7 @@ function canSHOOT() {
 
     new OBJLoader()
         .setPath('./project3_assets/MissileAGM-65/Files/')
-        .load('Missile AGM-65.obj', function (object) {
+        .load('Missile-AGM-65.obj', function (object) {
             bullets.push(object);
             bulletCount++;
             console.log(object.position);
