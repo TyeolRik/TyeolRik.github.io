@@ -8,6 +8,8 @@ tags:
   - tag2
 ---
 
+{% katexmm %}
+
 ## Inline
 
 $a = b + c$ is the law
@@ -31,3 +33,5 @@ $$
 \[
   \LARGE \sqrt{(a + b + c)^2}
 \]
+
+{% endkatexmm %}
