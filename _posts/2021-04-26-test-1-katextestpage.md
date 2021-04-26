@@ -10,20 +10,24 @@ tags:
 
 ## Inline
 
-$a = b + c$ is the law
+- Single 
+
+\\(a = b + c\\) is the law
+
+- Double dollar pair
+
+$$a = b + c$$ is the law
 
 ## Display
 
 - Dollar Sign none
 
-$$
-\LARGE \sqrt{(a + b + c)^2}
-$$
+$$\LARGE 5 + 5$$
 
 - Dollar Sign one
 
 \$$
-\LARGE \sqrt{(a + b + c)^2}
+  \LARGE \sqrt{(a + b + c)^2}
 $$
 
 - Dollar Sign two
@@ -44,8 +48,8 @@ $$
   \LARGE \sqrt{(a + b + c)^2}
 \]
 
-- Code Block
+- Plus sign
 
-```math
+++
 \LARGE \sqrt{(a + b + c)^2}
-```
+++
