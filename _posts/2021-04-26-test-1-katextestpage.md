@@ -14,9 +14,20 @@ $a = b + c$ is the law
 
 ## Display
 
-- Dollar Sign - Change katex to nil in ```_config.yml```
+- Dollar Sign none
 
 $$
+\LARGE \sqrt{(a + b + c)^2}
+$$
+
+- Dollar Sign one
+
+\$$
+\LARGE \sqrt{(a + b + c)^2}
+$$
+
+- Dollar Sign two
+\$\$
 \LARGE \sqrt{(a + b + c)^2}
 $$
 
