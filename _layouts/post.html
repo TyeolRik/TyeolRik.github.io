@@ -31,6 +31,8 @@
               {% endfor %}
             </small>
           </h4>
+          
+          {% include katex_render.html %}
 
           {{ page.content | markdownify }}
 
