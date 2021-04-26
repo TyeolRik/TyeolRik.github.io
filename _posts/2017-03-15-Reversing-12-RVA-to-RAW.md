@@ -25,9 +25,9 @@ tags:
 1\. RVA가 속해 있는 섹션을 찾는다.<br />
 2\. 다음의 비례식을 이용해서 RAW(File Offset)을 계산한다. <br />
 
-$$
+\\[
 \large \mathrm R \mathrm A \mathrm W = \mathrm R \mathrm V \mathrm A -  \mathrm V \mathrm i \mathrm r \mathrm t \mathrm u \mathrm a \mathrm l \mathrm A \mathrm d \mathrm d \mathrm r \mathrm e \mathrm s \mathrm s + \mathrm P \mathrm o \mathrm i \mathrm n \mathrm t \mathrm e \mathrm r \mathrm T \mathrm o \mathrm R \mathrm a \mathrm w \mathrm D \mathrm a \mathrm t \mathrm a
-$$
+\\]
 
 <br /><br />
 

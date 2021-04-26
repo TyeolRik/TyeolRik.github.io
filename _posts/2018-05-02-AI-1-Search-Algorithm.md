@@ -43,12 +43,12 @@ tags:
 
 ## Search Algorithm의 구조
 
-Search Algorithm은 만들어진 Search Tree의 진행과정을 추적하기 위해서 다음과 같은 데이터 구조가 필요하다. 트리에 $n$개의 노드가 존재한다면 각 노드에 4개의 필드가 존재하는 데이터 구조가 필요하다.
+Search Algorithm은 만들어진 Search Tree의 진행과정을 추적하기 위해서 다음과 같은 데이터 구조가 필요하다. 트리에 \\(n\\)개의 노드가 존재한다면 각 노드에 4개의 필드가 존재하는 데이터 구조가 필요하다.
 
-- $n$\.STATE: 각 노드에 대응하는 현재 상태.
-- $n$\.PARENT: 각 노드의 Parent Node. (어떤 노드가 이 노드를 만들었는가?)
-- $n$\.ACTION: 이 노드를 만들기 위해서 Parent Node가 취한 행동.
-- $n$\.PATH-COST: 초기상태에서 노드로 가는데 필요한 비용, 이것은 Parent Pointer에 적혀있다. 일반적으로 $g(n)$으로 표시한다.
+- \\(n\\)\.STATE: 각 노드에 대응하는 현재 상태.
+- \\(n\\)\.PARENT: 각 노드의 Parent Node. (어떤 노드가 이 노드를 만들었는가?)
+- \\(n\\)\.ACTION: 이 노드를 만들기 위해서 Parent Node가 취한 행동.
+- \\(n\\)\.PATH-COST: 초기상태에서 노드로 가는데 필요한 비용, 이것은 Parent Pointer에 적혀있다. 일반적으로 \\(g(n)\\)으로 표시한다.
 
 이제 위와 같은 속성을 가진 노드들을 가질 수 있게 되었다. 컴퓨터적으로 노드를 어떤 메모리에 저장해야한다. 왜냐하면, **Search Algorithm이**, 각자의 Strategy에 따라서 노드들을 확장해갈 때, **쉽게 다음 노드를 선택하기 위해서** Frontier가 그러한 방법으로 저장될 필요가 있다. (Frontier가 다음 노드를 쉽게 선택할 수 있게 하는 알고리즘적인 저장방식이 필요하다.) 그러한 저장방식으로는 **큐(Queue)**가 적절하다.
 
@@ -56,9 +56,9 @@ Search Algorithm은 만들어진 Search Tree의 진행과정을 추적하기 위
 
 큐는 다음과 같은 3가지의 작업을 할 수 있다.
 
-- EMPTY?($queue$): 큐에 더 이상의 원소(데이터)가 존재하지 않을 때 true값을 return 한다.
-- POP($queue$): 큐의 첫 번째 원소를 없애고 그것을 return 한다.
-- INSERT($element$, $queue$): 원소를 삽입하고 결과 큐를 return 한다.
+- EMPTY?(\\(queue\\)): 큐에 더 이상의 원소(데이터)가 존재하지 않을 때 true값을 return 한다.
+- POP(\\(queue\\)): 큐의 첫 번째 원소를 없애고 그것을 return 한다.
+- INSERT(\\(element\\), \\(queue\\)): 원소를 삽입하고 결과 큐를 return 한다.
 
 큐는 어디에(몇 번째에) 노드를 저장했는 지를 의미하는 **순서** 에 따라서 서로 구별이 된다. ~~이 책에서는 스택도 노드로 취급한다.~~ First-in, First-out을 의미하는 **FIFO Queue**, Last-in, First-out을 의미하는 **LIFO queue (Stack)**, 그리고 특정한 정렬 알고리즘에 따라서 가장 높은 우선순위를 갖는 원소를 POP 하는 **Priority Queue** 가 있다.
 
@@ -71,13 +71,13 @@ Search Algorithm은 만들어진 Search Tree의 진행과정을 추적하기 위
 - **Time complexity**: 해답을 찾는데 얼마나 시간이 걸리는가?
 - **Space complexity**: 해당 Search를 수행함에 있어 얼마나 많은 메모리가 필요한가?
 
-Time complexity와 Space complexity를 묶어서 일반적으로 **Problem difficulty** 라고 한다. 컴퓨터 과학 이론에서는 위의 Romania 예시와 같은 그래프의 크기를 $|V| + |E|$로 표현한다. $V$는 그래프에서의 노드의 집합, $E$는 엣지(Edge)의 집합[^1]을 의미한다. 이러한 방법으로 Performance를 측정하는 것은 Input data가 명확할 때만 가능하다. 위의 Romania 예시에서는 Input data가 명확하게 모두다 주어져 있기 때문에 사용가능한 것처럼 말이다. 그러나, 실제 A.I 분야에서는 그래프가 빈번하게 불명확하게 주어져있다. 왜냐하면, 초기 상태, 행동, 변화 등의 경우의 수가 무한하기 때문이다.
+Time complexity와 Space complexity를 묶어서 일반적으로 **Problem difficulty** 라고 한다. 컴퓨터 과학 이론에서는 위의 Romania 예시와 같은 그래프의 크기를 \\(|V| + |E|\\)로 표현한다. \\(V\\)는 그래프에서의 노드의 집합, \\(E\\)는 엣지(Edge)의 집합[^1]을 의미한다. 이러한 방법으로 Performance를 측정하는 것은 Input data가 명확할 때만 가능하다. 위의 Romania 예시에서는 Input data가 명확하게 모두다 주어져 있기 때문에 사용가능한 것처럼 말이다. 그러나, 실제 A.I 분야에서는 그래프가 빈번하게 불명확하게 주어져있다. 왜냐하면, 초기 상태, 행동, 변화 등의 경우의 수가 무한하기 때문이다.
 
-그런 의미에서 **Complexity는 3개 성분의 크기로 표현된다.** $b$는 Branching Factor(분기 계수, 어떤 노드의 최대 자식 노드 개수), $d$는 Depth, 해결법으로 가는 경로 중에서 가장 얕은 것. (행동의 개수가 제일 작은 것), 그리고 $m$은 Maximum length of any path in state space, 모든 경로 중에서 가장 긴 경로의 길이를 의미한다.
+그런 의미에서 **Complexity는 3개 성분의 크기로 표현된다.** \\(b\\)는 Branching Factor(분기 계수, 어떤 노드의 최대 자식 노드 개수), \\(d\\)는 Depth, 해결법으로 가는 경로 중에서 가장 얕은 것. (행동의 개수가 제일 작은 것), 그리고 \\(m\\)은 Maximum length of any path in state space, 모든 경로 중에서 가장 긴 경로의 길이를 의미한다.
 
 ### Search cost
 
-Search Algorithm의 효율을 알기 위해서 우리는 **Search cost** 또는 **Total cost**를 도입한다. Search cost란 일반적으로 Time complexity에 의존하는 경향이 있다. 그러나, 메모리 사용량을 포함할 수도 있다. Total cost는 Search cost와 Path cost of solution을 합친 것이다. 위의 Romaina 예시를 들어보자면 Arad에서 Bucharest로 가는 경로를 찾는다고 할 때, Search cost는 Search를 함으로써 걸리는 시간을 의미하고, Solution cost는 경로의 길이를 의미한다. 만약, Solution이 Arad - Sibiu - Rimnicu Vilcea - Pitesti - Bucharest 라고 한다면, Solution cost는 $140 + 80 + 97 + 101 = 318$이 된다.
+Search Algorithm의 효율을 알기 위해서 우리는 **Search cost** 또는 **Total cost**를 도입한다. Search cost란 일반적으로 Time complexity에 의존하는 경향이 있다. 그러나, 메모리 사용량을 포함할 수도 있다. Total cost는 Search cost와 Path cost of solution을 합친 것이다. 위의 Romaina 예시를 들어보자면 Arad에서 Bucharest로 가는 경로를 찾는다고 할 때, Search cost는 Search를 함으로써 걸리는 시간을 의미하고, Solution cost는 경로의 길이를 의미한다. 만약, Solution이 Arad - Sibiu - Rimnicu Vilcea - Pitesti - Bucharest 라고 한다면, Solution cost는 \\(140 + 80 + 97 + 101 = 318\\)이 된다.
 
 <br/>
 <br/>

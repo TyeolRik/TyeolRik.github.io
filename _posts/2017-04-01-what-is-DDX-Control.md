@@ -115,7 +115,7 @@ void CDDXTestDlg::OnBnClickedExecute()
 
 ![Imgur](https://i.imgur.com/XdaJLDR.png)
 
-분명 초등교육과정에 의하면, $2 + 3 = 5$인데, 무슨 이유로 결과값이 0이라 출력된 것일까? 이 또한 **저장** 문제에 있다. 우리가 입력한 Input값을 2와 3으로 적었지만, 실제로 변수인 ```plusFirst```와 ```plusSecond```에는 어떤 값도 입력되지 않았다. 그러므로 초기화된 값이 결과값에 들어가게 되어, $0 + 0 = 0$이라는 결과를 출력하게 된 것이다. 고로, 이 또한 ```GetDlgItemText(int ID, LPCTSTR 변수);``` 함수를 이용해서 Dialog에 적은 Input 값을 변수에 넣는 **저장** 작업을 해줘야한다.
+분명 초등교육과정에 의하면, \\(2 + 3 = 5\\)인데, 무슨 이유로 결과값이 0이라 출력된 것일까? 이 또한 **저장** 문제에 있다. 우리가 입력한 Input값을 2와 3으로 적었지만, 실제로 변수인 ```plusFirst```와 ```plusSecond```에는 어떤 값도 입력되지 않았다. 그러므로 초기화된 값이 결과값에 들어가게 되어, \\(0 + 0 = 0\\)이라는 결과를 출력하게 된 것이다. 고로, 이 또한 ```GetDlgItemText(int ID, LPCTSTR 변수);``` 함수를 이용해서 Dialog에 적은 Input 값을 변수에 넣는 **저장** 작업을 해줘야한다.
 
 ```cpp
 void CDDXTestDlg::OnBnClickedExecute()
