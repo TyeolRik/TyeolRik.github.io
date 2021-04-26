@@ -3,6 +3,7 @@ layout: post
 title: 윈도우10 설치 가이드라인
 section-type: post
 category: Windows10
+published: false
 tags:
   - korean
   - windows10

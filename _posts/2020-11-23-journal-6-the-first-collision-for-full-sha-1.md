@@ -51,9 +51,9 @@ Deprecate에도 불구하고, SHA-1은 2017년까지 문서나 TLS 인증서 등
 
 우리는 먼저 위의 표에 나와있는 첫 번째 예시 Collision을 선보임으로써 SHA-1에 대한 이론적이기만 했던 공격이 현실이 되었다는 사실을 증명하고자 한다. 우리의 연구성과는 가장 잘 알려진, SHA-1을 $2^{61}$ 정도 호출하는 이론적 Collision attack을 기반으로 하였다. 이것은 Identical-prefix collision Attack 이라고 하는데, 주어진 접두어 P가 두개의 다른 Near-collision block 쌍으로 확장되면서 다른 접미어 S와 충돌할 때, 다음과 같은 수식으로 표현할 수 있다.
 
-++
+$$
 \mathrm{SHA-1}(P||M_1^{(1)}||M_2^{(1)}||S) = \mathrm{SHA-1}(P||M_1^{(2)}||M_2^{(2)}||S)
-++
+$$
 
 이 공격에 사용되는 계산적인 비용은 $2^{63.1}$ 정도의 SHA-1 호출과 비슷하다고 알려져있다. 앞서 우리가 기반했다고 하는 현실적인 공격과 이론적 공격에는 분명한 차이가 있다.[^5] 확실히 이론적 공격의 예상복잡도는 GPU들을 사용할 때 효율성에서 비롯된 상대적인 손실과 여러개의 데이터 센터들에서 대규모 분산 컴퓨팅을 하면서 직면하는 비효율 모두 포함되지 않았다. 더군다나, 두번째 Near-collision attack[^6]의 구성은 문헌에서 기대하는 것보다 훨씬 더 복잡했다.
 
@@ -77,15 +77,15 @@ NIST가 정의한 SHA-1의 간략한 설명은 다음과 같다. SHA-1은 임의
 
 160bits의 Chaining value $CV_j$ 와 512bits 메세지 블록을 인풋으로 갖는 Compression function $h$ 는 새로운 160bits Chaining value $CV_{j+1}$을 출력할 것이다. 이 Compression function은 메세지 블록을 Chaining value에 다음과 같이 섞는데, 워드 단위로 연산되며, 동시에 32bits의 String 값들과 $\mathbb{Z} / 2^{32} \mathbb{Z}$로 보일 것이다. Input chaining value는 5개의 워드 $a, b, c, d, e$로 나뉘며, 메세지 블록은 16 워드 $m_0, \cdots , m_{15}$로 나뉜다. 후자(메세지 블록)는 다음의 재귀 선형 방정식에 의하여 80 워드로 확장된다.
 
-++
+$$
 m_i = (m_{i-3} \oplus m_{i-8} \oplus m_{i-14} \oplus m_{i-16})^{\circlearrowleft 1},\quad \mathrm{for} \: 16 \leq i < 80.
-++
+$$
 
 $(A_{-4}, A_{-3}, A_{-2}, A_{-1}, A_{0}) := (e^{\circlearrowleft 2}, d^{\circlearrowleft 2}, c^{\circlearrowleft 2}, b, a)$ 에서 시작해서 각각의 $m_i$는 $i = 0, \cdots , 79$ 의 80회 연산에 의해 섞인다.
 
-++
+$$
 A_{i+1} = A_{i}^{\circlearrowleft 5} + \varphi_{i} (A_{i-1}, A_{i-2}^{\circlearrowleft 2}, A_{i-3}^{\circlearrowleft 2}) + A_{i-4}^{\circlearrowleft 2} + K_i + m_i,
-++
+$$
 
 단, $\varphi_{i}$ 와 $K_{i}$는 다음의 미리 정의된 부울대수 함수와 상수이다.
 
@@ -93,9 +93,9 @@ A_{i+1} = A_{i}^{\circlearrowleft 5} + \varphi_{i} (A_{i-1}, A_{i-2}^{\circlearr
 
 80회 연산이 끝나면, 새로운 Chaining value는 입력 chaining value의 합으로 계산되며, 최종 중간식은 다음과 같다.
 
-++
+$$
  CV_{j+1} = (a + A_{80}, b + A_{79}, c + A_{78}^{\circlearrowleft 2}, d + A_{77}^{\circlearrowleft 2}, e + A_{76}^{\circlearrowleft 2}). 
-++
+$$
 
 
 
