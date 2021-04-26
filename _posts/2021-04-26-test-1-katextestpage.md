@@ -43,3 +43,9 @@ $$
 \[
   \LARGE \sqrt{(a + b + c)^2}
 \]
+
+- Code Block
+
+```math
+\LARGE \sqrt{(a + b + c)^2}
+```
