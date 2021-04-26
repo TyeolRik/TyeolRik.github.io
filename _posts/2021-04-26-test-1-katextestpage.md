@@ -14,7 +14,7 @@ $a = b + c$ is the law
 
 ## Display
 
-- Dollar Sign
+- Dollar Sign - Change katex to nil in ```_config.yml```
 
 $$
 \LARGE \sqrt{(a + b + c)^2}
