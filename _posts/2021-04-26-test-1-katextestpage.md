@@ -27,6 +27,7 @@ $$
 $$
 
 - Dollar Sign two
+
 \$\$
 \LARGE \sqrt{(a + b + c)^2}
 $$
