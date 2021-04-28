@@ -139,7 +139,7 @@ email: "kino6147@naver.com"
 # This works best when your author blurb image has a transparent background, or matches your site background color.
 
 # if the author_blurb is not set, then this feature is skipped
-author_blurb: "TyeolRik is an awesome person. He lives in Republic of Korea, where he attends University. In his spare time, TyeolRik likes to play tennis LUL."
+author_blurb: "Coding Future, Decoding Society."
 author_blurb_image: "/img/tyeolrik_transparent.png"
 
 ##################
