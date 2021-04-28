@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "[c] stdlib rand function 알아보기"
+title: "[c] stdlib rand function 알아보기 (Source code)"
 section-type: post
 category: c
 tags:
