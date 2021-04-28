@@ -138,6 +138,6 @@ tcp://2.tcp.ngrok.io:13761
 <br>
 <br>
 <br>
-</hr>
+<hr>
 
 [^1]: [Bad Owner or Permissions on username\.ssh\config file #3210](https://github.com/microsoft/vscode-docs/issues/3210)

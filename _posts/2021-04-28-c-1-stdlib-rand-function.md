@@ -111,3 +111,6 @@ int rand (void) {
 ```
 
 [원문](https://code.woboq.org/userspace/glibc/stdlib/rand.c.html)은 위와 같다. ```#include <stdlib.h>``` 해서 ```rand()```를 호출한 결과와 똑같이 나옴을 확인하였다. (GCC 9.3.0)
+
+
+<br><br><br>

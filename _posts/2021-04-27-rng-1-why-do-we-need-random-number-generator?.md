@@ -48,3 +48,6 @@ int main() {
 [stdlib rand function 알아보기 (Source code)]({% post_url 2021-04-28-c-1-stdlib-rand-function %})
 
 위 글을 읽으면 좀 더 명확히 알 수 있을 것이다. 결론만 간단히 말하자면, ```rand()``` 함수와 같이 Pseudo Random Function의 Seed 값이 정해짐에 따라 특정 연산을 수행하고 특정 결과를 return 한다는 사실을 알면, Pseudo random 의 정의를 잘 이해했다고 볼 수 있다. 위의 알고리즘 이외에도 많은 의사난수 알고리즘이 존재한다.
+
+
+<br><br><br>
