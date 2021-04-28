@@ -43,8 +43,8 @@ int main() {
 // 출력 : 1 7 0 7 5 7 1 3 6 1
 ```
 
-위와 같은 코드를 여러번 반복실행시키면 항상 똑같은 값이 나오는 것을 알 수 있는데, 그 이유는 ```rand()``` 함수가 항상 같은 input을 받았기 때문이다. Random 함수의 input을 컴퓨터과학에서는 **Seed**라고 한다. rand() 함수를 좀 더 자세히 알아보자.
+위와 같은 코드를 여러번 반복실행시키면 항상 똑같은 값이 나오는 것을 알 수 있는데, 그 이유는 ```rand()``` 함수가 항상 같은 input을 받았기 때문이다. Random 함수의 input을 컴퓨터과학에서는 **Seed**라고 한다. rand() Source code를 확인하려면 아래 링크를 참조하길 바란다.
 
-- c language stdlib rand() function
+[stdlib rand function 알아보기 (Source code)]({% post_url 2021-04-28-c-1-stdlib-rand-function %})
 
 위 글을 읽으면 좀 더 명확히 알 수 있을 것이다. 결론만 간단히 말하자면, ```rand()``` 함수와 같이 Pseudo Random Function의 Seed 값이 정해짐에 따라 특정 연산을 수행하고 특정 결과를 return 한다는 사실을 알면, Pseudo random 의 정의를 잘 이해했다고 볼 수 있다. 위의 알고리즘 이외에도 많은 의사난수 알고리즘이 존재한다.
