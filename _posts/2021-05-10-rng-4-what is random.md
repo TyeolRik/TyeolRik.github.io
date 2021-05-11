@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "[random] 랜덤이란 무엇일까?"
+title: "[Random] 랜덤이란 무엇일까?"
 section-type: post
 category: random
 tags:
