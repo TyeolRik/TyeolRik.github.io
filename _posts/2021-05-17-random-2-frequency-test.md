@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "[Random] frequency test"
+title: "[Random] Frequency (Monobit) test"
 section-type: post
 category: random
 tags:
