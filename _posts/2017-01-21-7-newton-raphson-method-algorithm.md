@@ -83,11 +83,11 @@ int main(void) {
 	long double root2 = Newton_Raphson(10, 2);
 	long double root3 = Newton_Raphson(10, 3);
 	long double root5 = Newton_Raphson(10, 5);
-	printf("Newton_Raphson 루트%d 값을 구하면 값은 %.15f \n", 2, (long double)root2);
+	printf("Newton_Raphson 루트%d 값을 구하면 값은 %.15Lf \n", 2, (long double)root2);
 	printf("실제 루트2 = 1.414213562373095 // 계산기로 쳐봤다.\n\n");
-	printf("Newton_Raphson 루트%d 값을 구하면 값은 %.15f \n", 3, (long double)root3);
+	printf("Newton_Raphson 루트%d 값을 구하면 값은 %.15Lf \n", 3, (long double)root3);
 	printf("실제 루트3 = 1.732050807568877 // 계산기로 쳐봤다.\n\n");
-	printf("Newton_Raphson 루트%d 값을 구하면 값은 %.15f \n", 5, (long double)root5);
+	printf("Newton_Raphson 루트%d 값을 구하면 값은 %.15Lf \n", 5, (long double)root5);
 	printf("실제 루트3 = 2.23606797749979 // 계산기로 쳐봤다.\n\n");
 }
 ```
