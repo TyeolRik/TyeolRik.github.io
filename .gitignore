@@ -21,3 +21,5 @@ Rakefile
 # Jekyll Cache
 .jekyll-cache/
 Gemfile.lock.old
+
+marry/
