@@ -98,3 +98,12 @@ assert!(mathjax.include?("window.MathJax ="), "MathJax configuration uses the v4
 assert!(mathjax.include?("mathjax@4.1.3/tex-mml-chtml.js"), "MathJax is 4.1.3")
 assert!(mathjax.include?("sha384-OrHfGTnIbkl0do3N76qW/uWr38o91N05sbSPuYBPLH+hG8X/dNSrjZf3AGjzrCwC"), "MathJax SRI is pinned")
 assert!(!mathjax.include?("MathJax.Hub"), "MathJax v2 API is absent")
+
+config = read("_config.yml")
+head = read("_includes/head.html")
+wedding = read("wedding/index.html")
+assert!(config.include?('google-analytics-id: "G-WYMVRPT9ZB"'), "GA4 measurement ID is configured")
+assert!(head.include?('data-measurement-id="{{ site.google-analytics-id }}"'), "Jekyll head loads shared analytics")
+assert!(wedding.include?('data-measurement-id="G-WYMVRPT9ZB"'), "wedding loads shared analytics")
+assert!(read("js/analytics.js").include?('window.location.hostname !== "tyeolrik.github.io"'), "analytics has the production hostname guard")
+assert!(!head.include?("UA-89622772-1"), "Universal Analytics is absent")
