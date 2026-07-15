@@ -186,9 +186,18 @@ assert!(!File.exist?(File.join(ROOT, ".travis.yml")), "Travis configuration is a
 action_pins = {
   "actions/checkout" => "9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0", # v7.0.0
   "ruby/setup-ruby" => "8e41b362d2589a22a44c1cfa214b3c83052c195b", # v1.318.0
-  "actions/upload-artifact" => "043fb46d1a93c77aae656e7c1c64a875d1fc6a0a" # v7.0.1
+  "actions/upload-artifact" => "043fb46d1a93c77aae656e7c1c64a875d1fc6a0a", # v7.0.1
+  "actions/configure-pages" => "45bfe0192ca1faeb007ade9deae92b16b8254a0d", # v6.0.0
+  "actions/upload-pages-artifact" => "fc324d3547104276b827a68afc52ff2a11cc49c9", # v5.0.0
+  "actions/deploy-pages" => "cd2ce8fcbc39b97be8ca5fce6e763baed58fa128" # v5.0.0
 }
 workflows = Dir.glob(File.join(ROOT, ".github", "workflows", "*.yml")).sort.map { |path| File.read(path) }.join("\n")
+pages_workflow = File.join(ROOT, ".github/workflows/pages.yml")
+assert!(File.exist?(pages_workflow), "Pages workflow exists")
+pages_source = File.exist?(pages_workflow) ? File.read(pages_workflow) : ""
+assert!(pages_source.include?("workflow_dispatch:"), "Pages supports manual dispatch")
+pages_on_block = pages_source[/\A.*?^concurrency:/m].to_s
+assert!(!pages_on_block.match?(/^\s*push:/), "initial Pages workflow is manual-only")
 action_pins.each do |name, sha|
   assert!(workflows.include?("#{name}@#{sha}"), "#{name} is pinned to #{sha}")
 end
