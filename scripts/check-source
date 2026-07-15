@@ -175,3 +175,15 @@ assert!(project_readme.include?("Internal failures block CI and deployment"), "R
 assert!(project_readme.include?("they do not block Pages"), "README documents nonblocking external links")
 assert!(!project_readme.match?(/\b(?:Node|npm)\b/i), "README does not require Node or npm")
 assert!(!File.exist?(File.join(ROOT, ".travis.yml")), "Travis configuration is absent")
+
+action_pins = {
+  "actions/checkout" => "9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0", # v7.0.0
+  "ruby/setup-ruby" => "8e41b362d2589a22a44c1cfa214b3c83052c195b", # v1.318.0
+  "actions/upload-artifact" => "043fb46d1a93c77aae656e7c1c64a875d1fc6a0a" # v7.0.1
+}
+workflows = Dir.glob(File.join(ROOT, ".github", "workflows", "*.yml")).sort.map { |path| File.read(path) }.join("\n")
+action_pins.each do |name, sha|
+  assert!(workflows.include?("#{name}@#{sha}"), "#{name} is pinned to #{sha}")
+end
+assert!(File.exist?(File.join(ROOT, ".github/workflows/ci.yml")), "CI workflow exists")
+assert!(File.exist?(File.join(ROOT, ".github/workflows/external-links.yml")), "external-link workflow exists")
