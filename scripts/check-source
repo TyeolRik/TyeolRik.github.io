@@ -92,3 +92,9 @@ assert!(!share_markup.include?("| uri_escape"), "share values do not use URI-lev
 site_javascript = read("js/site.js")
 assert!(site_javascript.include?("popup=yes,noopener,noreferrer,scrollbars=yes"), "share popups request interoperable opener isolation")
 assert!(site_javascript.include?("popup.opener = null"), "share popups defensively clear opener")
+
+mathjax = read("_includes/mathjax-support.html")
+assert!(mathjax.include?("window.MathJax ="), "MathJax configuration uses the v4 API")
+assert!(mathjax.include?("mathjax@4.1.3/tex-mml-chtml.js"), "MathJax is 4.1.3")
+assert!(mathjax.include?("sha384-OrHfGTnIbkl0do3N76qW/uWr38o91N05sbSPuYBPLH+hG8X/dNSrjZf3AGjzrCwC"), "MathJax SRI is pinned")
+assert!(!mathjax.include?("MathJax.Hub"), "MathJax v2 API is absent")
