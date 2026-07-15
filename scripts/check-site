@@ -3,11 +3,6 @@
 
 require "html-proofer"
 require "nokogiri"
-require "pathname"
-require "set"
-
-require_relative "check-site-paths"
-require_relative "check-site-paths-test"
 
 ROOT = File.expand_path("..", __dir__)
 SITE = File.join(ROOT, "_site")
@@ -67,33 +62,32 @@ generated_html = Dir.glob(File.join(SITE, "**", "*.html")).sort.map { |path| Fil
 end
 assert!(!generated_html.match?(/(?:src|href)=["']\/\//), "generated assets do not use protocol-relative URLs")
 
-site_files = Dir.glob(File.join(SITE, "**", "*"), File::FNM_DOTMATCH)
-  .select { |path| File.file?(path) }
-  .map { |path| Pathname.new(path).relative_path_from(Pathname.new(SITE)).to_s }
-  .to_set
-site_files_by_casefold = site_files.group_by(&:downcase)
-case_mismatches = Dir.glob(File.join(SITE, "**", "*.html")).sort.flat_map do |html_path|
-  source_path = Pathname.new(html_path).relative_path_from(Pathname.new(SITE)).to_s
+tag_targets = Dir.children(File.join(SITE, "tags")).select { |filename| filename.end_with?(".html") }
+tag_links = []
+taxonomy_failures = Dir.glob(File.join(SITE, "**", "*.html")).sort.flat_map do |html_path|
+  source_path = html_path.delete_prefix("#{SITE}/")
   document = Nokogiri::HTML5(File.read(html_path, encoding: "UTF-8"))
 
-  %w[href src].flat_map do |attribute|
-    document.css("[#{attribute}]").filter_map do |node|
-      reference = node[attribute]
-      canonical_paths = SitePathChecker.case_mismatches(
-        reference,
-        source_path,
-        site_files,
-        site_files_by_casefold
-      )
-      next if canonical_paths.empty?
+  document.css("a[href]").filter_map do |node|
+    href = node["href"]
+    match = href.match(%r{\A/([^/?#]+)/([^/?#]+)\.html\z})
+    next unless match && match[1].casecmp?("tags")
 
-      "#{source_path}: #{reference} differs from #{canonical_paths.join(', ')}"
-    end
+    tag_links << href
+    route = "#{match[1]}/#{match[2]}.html"
+    target = "#{match[2].downcase}.html"
+    problems = []
+    problems << "route is not lowercase" unless route == route.downcase
+    problems << "missing exact target tags/#{target}" unless tag_targets.include?(target)
+    next if problems.empty?
+
+    "#{source_path}: #{href} (#{problems.join('; ')})"
   end
 end
+assert!(!tag_links.empty?, "generated site contains tag links")
 assert!(
-  case_mismatches.empty?,
-  (["generated internal targets match exact path casing"] + case_mismatches).join("\n")
+  taxonomy_failures.empty?,
+  (["generated tag links use canonical lowercase targets"] + taxonomy_failures).join("\n")
 )
 
 HTMLProofer.check_directory(

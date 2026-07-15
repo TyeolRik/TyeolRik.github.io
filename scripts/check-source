@@ -161,6 +161,13 @@ taxonomy_routes.each do |source, route|
   assert!(read(source).include?(%(permalink: "#{route}")), "#{source} preserves #{route}")
 end
 
+post_layout = read("_layouts/post.html")
+canonical_tag_link = '<a class="tag" href="{{site.baseurl}}/tags/{{tag | downcase}}.html">#{{ tag }}</a>'
+assert!(
+  post_layout.include?(canonical_tag_link),
+  "post tag links lowercase only the route while preserving the original display label"
+)
+
 site_checker = read("scripts/check-site")
 assert!(site_checker.include?('ignore_urls: [%r{\Ahttp://}]'), "legacy external HTTP URLs are delegated to the external audit")
 
