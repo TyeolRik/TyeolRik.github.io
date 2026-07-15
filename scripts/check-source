@@ -201,7 +201,10 @@ pages_config = YAML.safe_load(pages_source, aliases: false)
 pages_on_keys = pages_config.is_a?(Hash) ? pages_config.keys.select { |key| key == "on" || key == true } : []
 pages_events = pages_on_keys.one? ? pages_config[pages_on_keys.first] : nil
 pages_event_keys = pages_events.is_a?(Hash) ? pages_events.keys.map(&:to_s) : []
-assert!(pages_event_keys == ["workflow_dispatch"], "Pages workflow has only the workflow_dispatch trigger")
+pages_push = pages_events.is_a?(Hash) ? pages_events["push"] : nil
+pages_push_branches = pages_push.is_a?(Hash) ? pages_push["branches"] : nil
+assert!(pages_event_keys.sort == %w[push workflow_dispatch], "Pages workflow has only push and workflow_dispatch triggers")
+assert!(pages_push_branches == ["master"], "Pages push trigger is limited to master")
 action_pins.each do |name, sha|
   assert!(workflows.include?("#{name}@#{sha}"), "#{name} is pinned to #{sha}")
 end
