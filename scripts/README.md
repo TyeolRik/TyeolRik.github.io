@@ -1,21 +1,14 @@
-install
-  - Installs jekyll and the dependencies required by personal-jekyll-theme
+# Scripts
 
-serve-production
-  - Builds and serves your website in 127.0.0.1:4000
+- `./scripts/install` — verify Ruby 4.0.6, install Bundler 4.0.16 if needed, and install Jekyll 4.4.1 with `bundle install`.
+- `./scripts/serve` — development preview with LiveReload on `127.0.0.1:4000`.
+- `./scripts/serve-production` — production-mode preview on `127.0.0.1:4000`.
+- `./scripts/serve-lan` — development preview on `0.0.0.0:4000`; it does not modify the firewall.
+- `./scripts/check-source` — verify pins, source markup, removals, and tracked-artifact rules.
+- `./scripts/check-tools` — test `newpost` and `generate` in a temporary site.
+- `bundle exec ruby scripts/check-site` — verify a previously generated `_site` with html-proofer and required-output checks.
 
-serve
-  - Builds and serves your website without generating the Disqus comments and the Google Analytics code
+Post and taxonomy commands remain at the repository root:
 
-new-post <title>
-  - Creates a new post under \_posts
-
-generate-category
-  - Generate all the categories that are used in the \_posts
-
-generate-tag
-  - Generate all the tags that are used in the \_posts
-
-integrate-personal
-  - Integrates the latest bug fixes and new features from personal-jekyll-theme repository.
-  Make sure to read [this](https://github.com/PanosSakkos/personal-jekyll-theme/wiki/Integrating-latest-bug-fixes-and-features-into-your-past-fork) before using it.
+- `./newpost "Category Post title"`
+- `./generate`

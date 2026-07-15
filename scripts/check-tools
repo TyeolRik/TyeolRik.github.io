@@ -16,14 +16,19 @@ Dir.mktmpdir("jekyll-tools") do |site_root|
   %w[_posts tags categories].each { |directory| FileUtils.mkdir_p(File.join(site_root, directory)) }
   File.write(
     File.join(site_root, "_posts", "2026-01-01-ruby-1-existing.md"),
-    "---\nlayout: post\ntitle: Existing\ncategory: Ruby\ntags:\n  - Jekyll\n---\n"
+    "---\nlayout: post\ntitle: Existing\ncategory: Ruby\ntags:\n  - Jekyll\n  - Generated\n---\n"
+  )
+  File.write(
+    File.join(site_root, "tags", "jekyll.md"),
+    "---\nlayout: tag\nsection-type: tag\ntitle: jekyll\npermalink: /tags/jekyll.html\n---\n## Tag\n"
   )
 
   stdout, stderr, status = run_tool(site_root, "generate")
   abort stderr unless status.success?
-  abort "tag page missing" unless File.exist?(File.join(site_root, "tags", "jekyll.html"))
+  abort "Markdown tag page was duplicated" if File.exist?(File.join(site_root, "tags", "jekyll.html"))
+  abort "generated tag page missing" unless File.exist?(File.join(site_root, "tags", "generated.html"))
   abort "category page missing" unless File.exist?(File.join(site_root, "categories", "ruby.html"))
-  abort "generate output missing" unless stdout.include?("Generating #jekyll page")
+  abort "generate output missing" unless stdout.include?("Generating #generated page")
 
   _stdout, stderr, status = run_tool(site_root, "newpost", "Ruby New Post")
   abort stderr unless status.success?

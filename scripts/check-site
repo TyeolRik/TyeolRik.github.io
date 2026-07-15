@@ -1,0 +1,67 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "html-proofer"
+
+ROOT = File.expand_path("..", __dir__)
+SITE = File.join(ROOT, "_site")
+
+def assert!(condition, message)
+  abort "FAIL: #{message}" unless condition
+  puts "PASS: #{message}"
+end
+
+required = %w[
+  index.html
+  blog/index.html
+  blog/page2/index.html
+  jekyll/2021/04/27/jekyll-2-contemplation-of-using-mathjax-in-github-flavored-markdown.html
+  tags/mathjax.html
+  tags/nfs.html
+  tags/storage.html
+  categories/jekyll.html
+  categories/nfs.html
+  feed.xml
+  sitemap.xml
+  404.html
+  wedding/index.html
+  js/site.js
+  js/analytics.js
+  img/web-app/icon-36p.png
+  img/web-app/icon-48p.png
+  img/web-app/icon-72p.png
+  img/web-app/icon-96p.png
+  img/web-app/icon-144p.png
+  img/web-app/icon-192p.png
+]
+
+assert!(Dir.exist?(SITE), "_site exists")
+required.each { |path| assert!(File.exist?(File.join(SITE, path)), "#{path} exists") }
+assert!(!File.exist?(File.join(SITE, "ComputerGraphics", "project3.html")), "ComputerGraphics output is absent")
+
+index = File.read(File.join(SITE, "index.html"), encoding: "UTF-8")
+wedding = File.read(File.join(SITE, "wedding", "index.html"), encoding: "UTF-8")
+assert!(index.include?("bootstrap@5.3.8"), "generated home uses Bootstrap 5.3.8")
+assert!(index.include?("typed.js@3.0.0"), "generated home uses Typed.js 3.0.0")
+assert!(index.include?("mathjax@4.1.3"), "generated home uses MathJax 4.1.3")
+assert!(index.include?("fontawesome-free@7.3.0"), "generated home uses Font Awesome 7.3.0")
+assert!(index.include?("G-WYMVRPT9ZB") && wedding.include?("G-WYMVRPT9ZB"), "GA4 is present on home and wedding")
+
+generated_html = Dir.glob(File.join(SITE, "**", "*.html")).sort.map { |path| File.read(path, encoding: "UTF-8") }.join("\n")
+%w[UA-89622772-1 plus.google.com jquery-1.11 hammer.min.js rrssb.min.js highlight.js].each do |legacy|
+  assert!(!generated_html.downcase.include?(legacy.downcase), "generated HTML omits #{legacy}")
+end
+assert!(!generated_html.match?(/(?:src|href)=["']\/\//), "generated assets do not use protocol-relative URLs")
+
+HTMLProofer.check_directory(
+  SITE,
+  {
+    disable_external: true,
+    enforce_https: true,
+    ignore_urls: [%r{\Ahttp://}],
+    ignore_empty_alt: true,
+    ignore_empty_mailto: true
+  }
+).run
+
+puts "PASS: generated site integrity"

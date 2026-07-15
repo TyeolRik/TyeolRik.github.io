@@ -107,3 +107,48 @@ assert!(head.include?('data-measurement-id="{{ site.google-analytics-id }}"'), "
 assert!(wedding.include?('data-measurement-id="G-WYMVRPT9ZB"'), "wedding loads shared analytics")
 assert!(read("js/analytics.js").include?('window.location.hostname !== "tyeolrik.github.io"'), "analytics has the production hostname guard")
 assert!(!head.include?("UA-89622772-1"), "Universal Analytics is absent")
+
+tracked = IO.popen(["git", "-C", ROOT, "ls-files"], &:read).lines.map(&:strip)
+%w[_site .jekyll-cache .sass-cache].each do |artifact|
+  assert!(tracked.none? { |path| path == artifact || path.start_with?("#{artifact}/") }, "#{artifact} is not tracked")
+end
+
+source_markup = Dir.glob(File.join(ROOT, "{_includes,_layouts}", "**", "*.html")).sort.map { |path| File.read(path) }.join("\n")
+assert!(!source_markup.match?(/(?:src|href)=["']\/\//), "source assets do not use protocol-relative URLs")
+%w[html5shiv respond.js UA-89622772-1].each do |legacy|
+  assert!(!source_markup.include?(legacy), "#{legacy} is absent")
+end
+assert!(Dir.glob(File.join(ROOT, "_posts", "*")).count == 93, "all 93 posts remain")
+assert!(Dir.glob(File.join(ROOT, "tags", "*.html")).count == 152, "all 152 tag pages remain")
+assert!(Dir.glob(File.join(ROOT, "categories", "*.html")).count == 24, "all 24 category pages remain")
+
+%w[36 48 72 96 144 192].each do |size|
+  icon = "/img/web-app/icon-#{size}p.png"
+  assert!(config.include?(%(icon-#{size}p: "#{icon}")), "web-app #{size}px icon uses the tracked icon family")
+  assert!(File.exist?(File.join(ROOT, icon)), "web-app #{size}px icon exists")
+end
+
+taxonomy_routes = {
+  "tags/nfs.md" => "/tags/nfs.html",
+  "tags/storage.md" => "/tags/storage.html",
+  "categories/nfs.md" => "/categories/nfs.html"
+}
+taxonomy_routes.each do |source, route|
+  assert!(File.exist?(File.join(ROOT, source)), "#{source} exists")
+  assert!(read(source).include?(%(permalink: "#{route}")), "#{source} preserves #{route}")
+end
+
+site_checker = read("scripts/check-site")
+assert!(site_checker.include?('ignore_urls: [%r{\Ahttp://}]'), "legacy external HTTP URLs are delegated to the external audit")
+
+project_readme = read("README.md")
+scripts_readme = read("scripts/README.md")
+[project_readme, scripts_readme].each do |documentation|
+  assert!(documentation.include?("Ruby 4.0.6"), "documentation names Ruby 4.0.6")
+  assert!(documentation.include?("Bundler 4.0.16"), "documentation names Bundler 4.0.16")
+  assert!(documentation.include?("Jekyll 4.4.1"), "documentation names Jekyll 4.4.1")
+end
+assert!(project_readme.include?("Internal failures block CI and deployment"), "README documents blocking internal failures")
+assert!(project_readme.include?("they do not block Pages"), "README documents nonblocking external links")
+assert!(!project_readme.match?(/\b(?:Node|npm)\b/i), "README does not require Node or npm")
+assert!(!File.exist?(File.join(ROOT, ".travis.yml")), "Travis configuration is absent")
