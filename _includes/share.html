@@ -1,5 +1,5 @@
-{% assign share_url = site.url | append: site.baseurl | append: page.url | uri_escape %}
-{% assign share_title = page.title | uri_escape %}
+{% assign share_url = site.url | append: site.baseurl | append: page.url | cgi_escape | replace: "+", "%20" %}
+{% assign share_title = page.title | cgi_escape | replace: "+", "%20" %}
 <ul class="share-buttons" aria-label="Share this post">
   {% if site.email-share %}
   <li><a class="share-email" href="mailto:?subject={{ share_title }}&amp;body={{ share_url }}" data-proofer-ignore>

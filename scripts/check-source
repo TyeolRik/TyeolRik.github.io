@@ -83,3 +83,12 @@ assert!(read("_includes/js.html").include?("sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7w
 assert!(read("_includes/js.html").include?("typed.js@3.0.0/dist/typed.umd.min.js"), "Typed.js is 3.0.0")
 assert!(read("_includes/js.html").include?("sha384-Yov59JWOKYHWUHWDFnCDfZuYmSmavoEutcw/+/ltVWuLGFjOmshWw0r0UV2yCwFi"), "Typed.js SRI is pinned")
 assert!(read("_includes/js.html").include?("new Typed("), "Typed constructor API is used")
+
+share_markup = read("_includes/share.html")
+component_encoding = '| cgi_escape | replace: "+", "%20"'
+assert!(share_markup.scan(component_encoding).length == 2, "share URL and title use component-safe encoding")
+assert!(!share_markup.include?("| uri_escape"), "share values do not use URI-level escaping")
+
+site_javascript = read("js/site.js")
+assert!(site_javascript.include?("popup=yes,noopener,noreferrer,scrollbars=yes"), "share popups request interoperable opener isolation")
+assert!(site_javascript.include?("popup.opener = null"), "share popups defensively clear opener")

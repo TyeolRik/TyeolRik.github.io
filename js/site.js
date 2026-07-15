@@ -38,9 +38,12 @@
       const popup = window.open(
         link.href,
         "share",
-        `popup=yes,scrollbars=yes,width=${width},height=${height},left=${left},top=${top}`
+        `popup=yes,noopener,noreferrer,scrollbars=yes,width=${width},height=${height},left=${left},top=${top}`
       );
-      if (popup) popup.focus();
+      if (popup) {
+        popup.opener = null;
+        popup.focus();
+      }
     });
   });
 
