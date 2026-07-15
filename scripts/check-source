@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+ROOT = File.expand_path("..", __dir__)
+
+def read(relative_path)
+  File.read(File.join(ROOT, relative_path), encoding: "UTF-8")
+end
+
+def assert!(condition, message)
+  abort "FAIL: #{message}" unless condition
+  puts "PASS: #{message}"
+end
+
+expected_ruby = "4.0.6"
+expected_bundler = "4.0.16"
+gemfile = read("Gemfile")
+lockfile = read("Gemfile.lock")
+
+assert!(File.exist?(File.join(ROOT, ".ruby-version")), ".ruby-version exists")
+assert!(read(".ruby-version").strip == expected_ruby, "Ruby pin is #{expected_ruby}")
+assert!(RUBY_VERSION == expected_ruby, "current Ruby is #{expected_ruby}")
+assert!(gemfile.include?('ruby "4.0.6"'), "Gemfile Ruby matches")
+assert!(gemfile.include?('gem "jekyll", "4.4.1"'), "Jekyll is exact")
+assert!(gemfile.include?('gem "jekyll-paginate-v2", "3.0.0"'), "pagination Gem is exact")
+assert!(gemfile.include?('gem "html-proofer", "5.2.1"'), "html-proofer is exact")
+assert!(lockfile.include?("jekyll (4.4.1)"), "lockfile contains Jekyll 4.4.1")
+assert!(lockfile.include?("jekyll-paginate-v2 (3.0.0)"), "lockfile contains pagination 3.0.0")
+assert!(lockfile.include?("html-proofer (5.2.1)"), "lockfile contains html-proofer 5.2.1")
+assert!(lockfile.include?("rouge (4.7.0)"), "lockfile contains compatible Rouge 4.7.0")
+assert!(lockfile.match?(/RUBY VERSION\n   ruby 4\.0\.6(?:p\d+)?/), "lockfile Ruby is 4.0.6")
+assert!(lockfile.include?("BUNDLED WITH\n   #{expected_bundler}"), "lockfile Bundler is #{expected_bundler}")
