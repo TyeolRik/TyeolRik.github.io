@@ -23,6 +23,10 @@ html {
     height: 100%;
 }
 
+[id] {
+  scroll-margin-top: 90px;
+}
+
 h1,
 h2,
 h3,
@@ -97,13 +101,15 @@ del span {
     max-height: 100%;
     overflow-y: auto;
 
-    .navbar-toggle {
+    .navbar-toggler {
         padding: 4px 6px;
         font-size: 16px;
         color: $navbar-color;
+        border-color: rgba($font-color, 0.3);
         &:focus,
         &:active {
             outline: none;
+            box-shadow: none;
         }
     }
     .navbar-brand {
@@ -118,7 +124,7 @@ del span {
             text-shadow: 0 0 2px rgba(0, 0, 0, 0.8);
         }
     }
-    .nav {
+    .navbar-nav {
         text-align: center;
         li {
             a {
@@ -299,20 +305,6 @@ del span {
     -webkit-transition: all .3s ease-in-out;
     -moz-transition: all .3s ease-in-out;
     transition: all .3s ease-in-out;
-}
-
-.btn-default {
-    border: 1px solid $secondary-color;
-    color: $secondary-color;
-    background-color: transparent;
-}
-
-.btn-default:hover,
-.btn-default:focus {
-    border: 1px solid $secondary-color;
-    outline: 0;
-    color: #000;
-    background-color: $secondary-color;
 }
 
 /* Added in { Personal } */

@@ -53,3 +53,14 @@ removed_paths = %w[
 removed_paths.each do |path|
   assert!(!File.exist?(File.join(ROOT, path)), "#{path} is removed")
 end
+
+head = read("_includes/head.html")
+bootstrap_sources = Dir.glob(File.join(ROOT, "{_includes,_layouts}", "**", "*.html")).sort.map { |path| File.read(path) }.join("\n")
+assert!(head.include?("bootstrap@5.3.8/dist/css/bootstrap.min.css"), "Bootstrap CSS is 5.3.8")
+assert!(head.include?("sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"), "Bootstrap CSS SRI is pinned")
+assert!(head.include?("fontawesome-free@7.3.0/css/all.min.css"), "Font Awesome is 7.3.0")
+assert!(head.include?("sha384-sTlsophtwz/I4myskS3OIJf5VvEojkXKZyBTWZm0YD/K1pN7C5wpBPLyrsbr1SU2"), "Font Awesome SRI is pinned")
+%w[col-xs- col-md-offset- navbar-fixed-top img-responsive img-circle center-block data-toggle= data-target= data-spy=].each do |legacy|
+  assert!(!bootstrap_sources.include?(legacy), "legacy Bootstrap token #{legacy} is absent")
+end
+assert!(!bootstrap_sources.include?('class="navbar-toggle"'), "legacy Bootstrap navbar-toggle class is absent")
