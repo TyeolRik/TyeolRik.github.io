@@ -126,6 +126,13 @@ del span {
     }
     .navbar-nav {
         text-align: center;
+        a.active {
+            outline: none;
+            background-color: rgba($font-color, 0.3);
+            &:hover {
+                color: $navbar-color;
+            }
+        }
         li {
             a {
                 -webkit-transition: background .3s ease-in-out;

@@ -60,7 +60,13 @@ assert!(head.include?("bootstrap@5.3.8/dist/css/bootstrap.min.css"), "Bootstrap 
 assert!(head.include?("sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"), "Bootstrap CSS SRI is pinned")
 assert!(head.include?("fontawesome-free@7.3.0/css/all.min.css"), "Font Awesome is 7.3.0")
 assert!(head.include?("sha384-sTlsophtwz/I4myskS3OIJf5VvEojkXKZyBTWZm0YD/K1pN7C5wpBPLyrsbr1SU2"), "Font Awesome SRI is pinned")
-%w[col-xs- col-md-offset- navbar-fixed-top img-responsive img-circle center-block data-toggle= data-target= data-spy=].each do |legacy|
+%w[col-xs- col-md-offset- navbar-fixed-top img-responsive img-circle center-block visible-xs-block data-toggle= data-target= data-spy=].each do |legacy|
   assert!(!bootstrap_sources.include?(legacy), "legacy Bootstrap token #{legacy} is absent")
 end
 assert!(!bootstrap_sources.include?('class="navbar-toggle"'), "legacy Bootstrap navbar-toggle class is absent")
+
+theme = read("css/grayscale.scss")
+active_nav_link = theme.match?(
+  /\.navbar-nav\s*\{.*?a\.active\s*\{.*?background-color:\s*rgba\(\$font-color,\s*0\.3\);/m
+)
+assert!(active_nav_link, "Bootstrap 5 active nav link keeps themed background")
