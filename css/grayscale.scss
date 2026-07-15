@@ -3,6 +3,7 @@
 
 @import "variables";
 @import "mixins";
+@import "syntax";
 
 /*!
  * Start Bootstrap - Grayscale Bootstrap Theme (http://startbootstrap.com)
@@ -21,6 +22,10 @@ body {
 html {
     width: 100%;
     height: 100%;
+}
+
+[id] {
+  scroll-margin-top: 90px;
 }
 
 h1,
@@ -97,13 +102,15 @@ del span {
     max-height: 100%;
     overflow-y: auto;
 
-    .navbar-toggle {
+    .navbar-toggler {
         padding: 4px 6px;
         font-size: 16px;
         color: $navbar-color;
+        border-color: rgba($font-color, 0.3);
         &:focus,
         &:active {
             outline: none;
+            box-shadow: none;
         }
     }
     .navbar-brand {
@@ -118,8 +125,15 @@ del span {
             text-shadow: 0 0 2px rgba(0, 0, 0, 0.8);
         }
     }
-    .nav {
+    .navbar-nav {
         text-align: center;
+        a.active {
+            outline: none;
+            background-color: rgba($font-color, 0.3);
+            &:hover {
+                color: $navbar-color;
+            }
+        }
         li {
             a {
                 -webkit-transition: background .3s ease-in-out;
@@ -239,6 +253,48 @@ del span {
     }
 }
 
+/* Preserve the content typography previously supplied by Bootstrap 3. */
+.content-section a {
+    text-decoration: none;
+}
+
+.content-section h1 {
+    font-size: 36px;
+    line-height: 1.1;
+}
+
+.content-section h2 {
+    font-size: 30px;
+    line-height: 1.1;
+}
+
+.content-section h3 {
+    font-size: 24px;
+    line-height: 1.1;
+}
+
+.content-section h4 {
+    font-size: 18px;
+    line-height: 1.1;
+}
+
+.content-section h5 {
+    font-size: 14px;
+    line-height: 1.1;
+}
+
+.content-section h6 {
+    font-size: 12px;
+    line-height: 1.1;
+}
+
+.content-section h4 small {
+    font-size: 75%;
+    font-weight: 400;
+    line-height: 1;
+    color: #777;
+}
+
 .content-section {
     margin-top: 100px;
     padding-top: 100px;
@@ -299,20 +355,6 @@ del span {
     -webkit-transition: all .3s ease-in-out;
     -moz-transition: all .3s ease-in-out;
     transition: all .3s ease-in-out;
-}
-
-.btn-default {
-    border: 1px solid $secondary-color;
-    color: $secondary-color;
-    background-color: transparent;
-}
-
-.btn-default:hover,
-.btn-default:focus {
-    border: 1px solid $secondary-color;
-    outline: 0;
-    color: #000;
-    background-color: $secondary-color;
 }
 
 /* Added in { Personal } */
@@ -400,61 +442,38 @@ body {
 }
 /* END Added in { Personal } for Typed Cursor in Header */
 
-/* Animation for hand-swipe */
-@-webkit-keyframes swipe {
-    from {
-        left: 5%;
-    }
-     to {
-         left: -5%;
-     }
- }
+.share-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 8px;
+  padding: 0;
+  margin: 40px 0;
+  list-style: none;
 
- @-moz-keyframes swipe {
-     from {
-         left: 5%;
-     }
-     to {
-         left: -5%;
-     }
- }
- /* END Animation for hand-swipe */
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 42px;
+    padding: 8px 10px;
+    color: #fff;
+    border-radius: 2px;
+    font: 700 12px Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-transform: uppercase;
+  }
 
- /* Style for swipe instruction section */
- #swipe-instruction {
-     display: none;
-     position: absolute;
-     background-color: rgba(0, 0, 0, 0.5);
-     width: 100%;
-     min-height: 100%;
-     top: 0;
-     right: 0;
-     left: 0;
-     z-index: 1;
-      > div {
-         background-color: rgba(20, 20, 20, 0.6);
-         padding: 10px;
-         @media(min-width:768px) {
-           padding: 20px 0;
-         }
-         #hand-swipe {
-            @media(min-width:992px) {
-              font-size: 100px;
-            }
-            font-size: 80px;
-             display: block;
-             position: relative;
-             animation: swipe ease-in-out 1s alternate infinite;
-         }
-     }
- }
-
-.ok-btn {
-  background-color: $primary-color;
-  color: $secondary-color;
+  a:hover, a:focus { color: #fff; filter: brightness(0.85); }
+  .share-email { background: #0a88ff; }
+  .share-facebook { background: #306199; }
+  .share-x { background: #111; }
+  .share-linkedin { background: #0077b5; }
+  .share-reddit { background: #ff4500; }
+  .share-tumblr { background: #35465c; }
+  .share-pinterest { background: #bd081c; }
+  .share-pocket { background: #ef4056; }
+  .share-vk { background: #4c75a3; }
 }
-
- /* END Style for swipe instruction section */
 
 .fourofour {
   border: 1px solid $primary-color !important;

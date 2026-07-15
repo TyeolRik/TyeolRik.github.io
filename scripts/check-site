@@ -1,0 +1,104 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "html-proofer"
+require "nokogiri"
+
+ROOT = File.expand_path("..", __dir__)
+SITE = File.join(ROOT, "_site")
+
+def assert!(condition, message)
+  abort "FAIL: #{message}" unless condition
+  puts "PASS: #{message}"
+end
+
+required = %w[
+  index.html
+  blog/index.html
+  blog/page2/index.html
+  jekyll/2021/04/27/jekyll-2-contemplation-of-using-mathjax-in-github-flavored-markdown.html
+  tags/mathjax.html
+  tags/nfs.html
+  tags/storage.html
+  categories/jekyll.html
+  categories/nfs.html
+  feed.xml
+  sitemap.xml
+  404.html
+  wedding/index.html
+  js/site.js
+  js/analytics.js
+  img/web-app/icon-36p.png
+  img/web-app/icon-48p.png
+  img/web-app/icon-72p.png
+  img/web-app/icon-96p.png
+  img/web-app/icon-144p.png
+  img/web-app/icon-192p.png
+]
+
+assert!(Dir.exist?(SITE), "_site exists")
+required.each { |path| assert!(File.exist?(File.join(SITE, path)), "#{path} exists") }
+assert!(!File.exist?(File.join(SITE, "ComputerGraphics", "project3.html")), "ComputerGraphics output is absent")
+
+index = File.read(File.join(SITE, "index.html"), encoding: "UTF-8")
+post = File.read(File.join(SITE, "jekyll", "2021", "04", "27", "jekyll-2-contemplation-of-using-mathjax-in-github-flavored-markdown.html"), encoding: "UTF-8")
+wedding = File.read(File.join(SITE, "wedding", "index.html"), encoding: "UTF-8")
+theme = File.read(File.join(SITE, "css", "grayscale.css"), encoding: "UTF-8")
+assert!(index.include?("bootstrap@5.3.8"), "generated home uses Bootstrap 5.3.8")
+assert!(index.include?("typed.js@3.0.0"), "generated home uses Typed.js 3.0.0")
+assert!(index.include?("mathjax@4.1.3"), "generated home uses MathJax 4.1.3")
+assert!(index.include?("fontawesome-free@7.3.0"), "generated home uses Font Awesome 7.3.0")
+assert!(index.include?("G-WYMVRPT9ZB") && wedding.include?("G-WYMVRPT9ZB"), "GA4 is present on home and wedding")
+assert!(wedding.include?('<link rel="icon" type="image/x-icon" href="/img/favicon.ico">'), "generated wedding declares the tracked favicon")
+assert!(theme.match?(/\.content-section a\s*\{[^}]*text-decoration:\s*none(?:;|\})/m), "generated theme removes Bootstrap 5 content-link underlines")
+assert!(theme.match?(/\.content-section h4 small\s*\{[^}]*font-size:\s*75%;[^}]*font-weight:\s*400;[^}]*line-height:\s*1;[^}]*color:\s*#777(?:;|\})/m), "generated theme restores legacy small-heading typography")
+assert!(index.include?('window.location.hostname !== "tyeolrik.github.io"') && index.include?("https://tyeolrik.disqus.com/count.js"), "generated home keeps the hostname-guarded Disqus count bootstrap")
+assert!(post.scan('window.location.hostname !== "tyeolrik.github.io"').length == 2, "generated post guards both Disqus network injections")
+assert!(post.include?("https://tyeolrik.disqus.com/embed.js") && post.include?("https://tyeolrik.disqus.com/count.js"), "generated post keeps both Disqus bootstrap URLs")
+
+generated_html = Dir.glob(File.join(SITE, "**", "*.html")).sort.map { |path| File.read(path, encoding: "UTF-8") }.join("\n")
+%w[UA-89622772-1 plus.google.com jquery-1.11 hammer.min.js rrssb.min.js highlight.js].each do |legacy|
+  assert!(!generated_html.downcase.include?(legacy.downcase), "generated HTML omits #{legacy}")
+end
+assert!(!generated_html.match?(/(?:src|href)=["']\/\//), "generated assets do not use protocol-relative URLs")
+
+tag_targets = Dir.children(File.join(SITE, "tags")).select { |filename| filename.end_with?(".html") }
+tag_links = []
+taxonomy_failures = Dir.glob(File.join(SITE, "**", "*.html")).sort.flat_map do |html_path|
+  source_path = html_path.delete_prefix("#{SITE}/")
+  document = Nokogiri::HTML5(File.read(html_path, encoding: "UTF-8"))
+
+  document.css("a[href]").filter_map do |node|
+    href = node["href"]
+    match = href.match(%r{\A/([^/?#]+)/([^/?#]+)\.html\z})
+    next unless match && match[1].casecmp?("tags")
+
+    tag_links << href
+    route = "#{match[1]}/#{match[2]}.html"
+    target = "#{match[2].downcase}.html"
+    problems = []
+    problems << "route is not lowercase" unless route == route.downcase
+    problems << "missing exact target tags/#{target}" unless tag_targets.include?(target)
+    next if problems.empty?
+
+    "#{source_path}: #{href} (#{problems.join('; ')})"
+  end
+end
+assert!(!tag_links.empty?, "generated site contains tag links")
+assert!(
+  taxonomy_failures.empty?,
+  (["generated tag links use canonical lowercase targets"] + taxonomy_failures).join("\n")
+)
+
+HTMLProofer.check_directory(
+  SITE,
+  {
+    disable_external: true,
+    enforce_https: true,
+    ignore_urls: [%r{\Ahttp://}],
+    ignore_empty_alt: true,
+    ignore_empty_mailto: true
+  }
+).run
+
+puts "PASS: generated site integrity"

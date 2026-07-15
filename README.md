@@ -1,85 +1,66 @@
-# { Personal } Jekyll Theme
-![Build Status](https://travis-ci.org/PanosSakkos/personal-jekyll-theme.svg?branch=master)
-![license](https://img.shields.io/badge/license-MIT-blue.svg?link=https://github.com/dono-app/ios/blob/master/LICENSE)
-[![Join the chat at https://gitter.im/PanosSakkos/personal-jekyll-theme](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/PanosSakkos/personal-jekyll-theme?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+# TyeolRik.github.io
 
-{ Personal } is a free responsive Jekyll theme, about you :wink:
+Source for [https://tyeolrik.github.io](https://tyeolrik.github.io), a Jekyll blog deployed with GitHub Pages Actions.
 
-You can watch it in action [here](https://panossakkos.github.io/personal-jekyll-theme/)!
+## Requirements
 
-<img src="https://github.com/panossakkos/personal-jekyll-theme/raw/master/.github/personal-mobile.mov.gif" height="480">
+- Ruby 4.0.6
+- Bundler 4.0.16
+- Jekyll 4.4.1 (installed through Bundler)
 
-<img src="https://github.com/panossakkos/personal-jekyll-theme/raw/master/.github/personal-desktop.mov.gif" height="600" width="960">
+With Homebrew and rbenv:
 
-## What value does { Personal } add
-
-* Fork of [Timeline](https://github.com/kirbyt/timeline-jekyll-theme) (mashup of [Grayscale by Start Bootstrap](https://github.com/IronSummitMedia/startbootstrap-grayscale) and [Agency Jekyll Theme](https://github.com/y7kim/agency-jekyll-theme))
-  * Modern and minimal design
-    * Responsive templates for home page, blog archive and posts. Looks great on mobile, tablet, and desktop devices
-    * Sweet animations
-    * Gracefully degrades in older browsers. Compatible with Internet Explorer 8+ and all modern browsers
-  * Timeline
-    * Tell your story so far with a sleek timeline of dates, pictures and descriptions
-  * White on black text, making the reading experience tireless
-  * Google analytics  
-* Customization and full control of your website and blog through the site config
-* Customization of the website's coloring
-* Blogging functionality
-  * Preview of the latest post in the home page
-  * Archive page
-  * Syntax highlighting
-  * Emojis
-  * Gesture navigation in archive and post pages by swiping
-  * Hashtags
-  * Categories
-  * Disqus comments
-  * Bootstrap share buttons
-  * RSS feed
-* Author blurb under the posts
-* 404 page
-* iOS and Android Web App mode
-* Enforcing of https protocol
-* Protection from email harvesting
-* Sitemap
-* Travis CI integration with [html-proofer](https://github.com/gjtorikian/html-proofer)
-
-## Documentation
-
-The theme contains documentation in the form of [blog posts](https://panossakkos.github.io/personal-jekyll-theme/blog/index.html).
-
-## How to run locally
-
-First, you need to install jekyll and the dependencies of { Personal } by running:
-
-```shell
+```sh
+brew install rbenv ruby-build
+rbenv install 4.0.6
+rbenv local 4.0.6
 ./scripts/install
 ```
 
-Then, you can build and serve your website by simply running:
+## Local preview
 
-```shell
+```sh
+./scripts/serve
+```
+
+Open <http://127.0.0.1:4000>. The production-mode preview is:
+
+```sh
 ./scripts/serve-production
 ```
 
-To serve across lan (requires su to forward the port 4000 over lan):
+To listen on the LAN without firewall or root changes:
 
-```shell
-./scripts/serve-lan-production
+```sh
+./scripts/serve-lan
 ```
 
-## OSS used in { Personal }
+## Verification
 
-One of the reasons { Personal } is real is the following OSS projects:
+```sh
+./scripts/check-source
+./scripts/check-tools
+JEKYLL_ENV=production bundle exec jekyll build --trace
+bundle exec ruby scripts/check-site
+```
 
-  1. [Grayscale](http://startbootstrap.com/template-overviews/grayscale/)
-  2. [hammer.js](https://hammerjs.github.io/)
-  3. [highlightjs](https://highlightjs.org/)
-  4. [RRSSB](https://github.com/kni-labs/rrssb)
-  5. [Timeline](https://github.com/kirbyt/timeline-jekyll-theme)
-  6. [typed.js](https://github.com/mattboldt/typed.js/)
+Internal failures block CI and deployment. External links are audited by the weekly `External links` workflow and its report artifact; they do not block Pages.
 
-<div style="font-size:16px;margin:0 auto;width:300px">
-    <a href="https://blockchain.info/address/1LHuKC9Em3KA5yoZaf7nngnNdf9K7s2gSi">
-        <img src="https://blockchain.info/Resources/buttons/donate_64.png"/>
-    </a>
-</div>
+## Authoring
+
+```sh
+./newpost "Category Post title"
+./generate
+```
+
+## Deployment
+
+Pull requests run build and integrity checks without deploying. Merges to `master` deploy the verified `_site` artifact through GitHub Actions after the initial manual Pages cutover.
+
+## Analytics
+
+GA4 measurement ID `G-WYMVRPT9ZB` loads only on `tyeolrik.github.io`, so local previews do not generate analytics traffic.
+
+## License
+
+Theme ancestry and licensing are documented in [LICENSE](LICENSE).

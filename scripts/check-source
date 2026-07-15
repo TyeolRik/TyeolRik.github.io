@@ -1,0 +1,209 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "yaml"
+
+ROOT = File.expand_path("..", __dir__)
+
+def read(relative_path)
+  File.read(File.join(ROOT, relative_path), encoding: "UTF-8")
+end
+
+def assert!(condition, message)
+  abort "FAIL: #{message}" unless condition
+  puts "PASS: #{message}"
+end
+
+expected_ruby = "4.0.6"
+expected_bundler = "4.0.16"
+gemfile = read("Gemfile")
+lockfile = read("Gemfile.lock")
+
+assert!(File.exist?(File.join(ROOT, ".ruby-version")), ".ruby-version exists")
+assert!(read(".ruby-version").strip == expected_ruby, "Ruby pin is #{expected_ruby}")
+assert!(RUBY_VERSION == expected_ruby, "current Ruby is #{expected_ruby}")
+assert!(gemfile.include?('ruby "4.0.6"'), "Gemfile Ruby matches")
+assert!(gemfile.include?('gem "jekyll", "4.4.1"'), "Jekyll is exact")
+assert!(gemfile.include?('gem "jekyll-paginate-v2", "3.0.0"'), "pagination Gem is exact")
+assert!(gemfile.include?('gem "html-proofer", "5.2.1"'), "html-proofer is exact")
+assert!(lockfile.include?("jekyll (4.4.1)"), "lockfile contains Jekyll 4.4.1")
+assert!(lockfile.include?("jekyll-paginate-v2 (3.0.0)"), "lockfile contains pagination 3.0.0")
+assert!(lockfile.include?("html-proofer (5.2.1)"), "lockfile contains html-proofer 5.2.1")
+assert!(lockfile.include?("rouge (4.7.0)"), "lockfile contains compatible Rouge 4.7.0")
+assert!(lockfile.match?(/RUBY VERSION\n   ruby 4\.0\.6(?:p\d+)?/), "lockfile Ruby is 4.0.6")
+assert!(lockfile.include?("BUNDLED WITH\n   #{expected_bundler}"), "lockfile Bundler is #{expected_bundler}")
+
+config = read("_config.yml")
+blog_index = read("blog/index.html")
+assert!(config.include?("- jekyll-paginate-v2"), "Jekyll loads jekyll-paginate-v2")
+assert!(config.include?("per_page: 5"), "pagination keeps five posts per page")
+assert!(config.include?('permalink: "/page:num/"'), "pagination keeps /blog/page2/ shape")
+assert!(!config.match?(/^paginate:/), "legacy paginate key is absent")
+assert!(!config.match?(/^paginate_path:/), "legacy paginate_path is absent")
+assert!(blog_index.include?("pagination:\n  enabled: true"), "blog opts into pagination v2")
+assert!(config.match?(/^exclude:.*["']docs["']/), "internal implementation docs are excluded")
+
+removed_paths = %w[
+  ComputerGraphics
+  newpost_deprecated
+  scripts/newpost
+  scripts/newpostForMac
+  scripts/generate-tags
+  scripts/generate-categories
+  scripts/serve-lan-production
+  scripts/integrate-personal
+]
+removed_paths.each do |path|
+  assert!(!File.exist?(File.join(ROOT, path)), "#{path} is removed")
+end
+
+head = read("_includes/head.html")
+bootstrap_sources = Dir.glob(File.join(ROOT, "{_includes,_layouts}", "**", "*.html")).sort.map { |path| File.read(path) }.join("\n")
+assert!(head.include?("bootstrap@5.3.8/dist/css/bootstrap.min.css"), "Bootstrap CSS is 5.3.8")
+assert!(head.include?("sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"), "Bootstrap CSS SRI is pinned")
+assert!(head.include?("fontawesome-free@7.3.0/css/all.min.css"), "Font Awesome is 7.3.0")
+assert!(head.include?("sha384-sTlsophtwz/I4myskS3OIJf5VvEojkXKZyBTWZm0YD/K1pN7C5wpBPLyrsbr1SU2"), "Font Awesome SRI is pinned")
+%w[col-xs- col-md-offset- navbar-fixed-top img-responsive img-circle center-block visible-xs-block data-toggle= data-target= data-spy=].each do |legacy|
+  assert!(!bootstrap_sources.include?(legacy), "legacy Bootstrap token #{legacy} is absent")
+end
+assert!(!bootstrap_sources.include?('class="navbar-toggle"'), "legacy Bootstrap navbar-toggle class is absent")
+
+theme = read("css/grayscale.scss")
+active_nav_link = theme.match?(
+  /\.navbar-nav\s*\{.*?a\.active\s*\{.*?background-color:\s*rgba\(\$font-color,\s*0\.3\);/m
+)
+assert!(active_nav_link, "Bootstrap 5 active nav link keeps themed background")
+
+legacy_content_typography = {
+  ".content-section a" => ["text-decoration: none;"],
+  ".content-section h1" => ["font-size: 36px;", "line-height: 1.1;"],
+  ".content-section h2" => ["font-size: 30px;", "line-height: 1.1;"],
+  ".content-section h3" => ["font-size: 24px;", "line-height: 1.1;"],
+  ".content-section h4" => ["font-size: 18px;", "line-height: 1.1;"],
+  ".content-section h5" => ["font-size: 14px;", "line-height: 1.1;"],
+  ".content-section h6" => ["font-size: 12px;", "line-height: 1.1;"],
+  ".content-section h4 small" => ["font-size: 75%;", "font-weight: 400;", "line-height: 1;", "color: #777;"]
+}
+legacy_content_typography.each do |selector, declarations|
+  rule = theme[/#{Regexp.escape(selector)}\s*\{([^}]*)\}/m, 1].to_s
+  assert!(declarations.all? { |declaration| rule.include?(declaration) }, "#{selector} restores legacy content typography")
+end
+
+browser_paths = Dir.glob(File.join(ROOT, "{_includes,_layouts,css,js}", "**", "*"))
+  .select { |path| File.file?(path) }
+browser_source = browser_paths.sort.map { |path| File.read(path, mode: "rb").force_encoding("UTF-8").scrub }.join("\n")
+%w[jquery jquery-easing hammer.min rrssb highlight.js google-plus plus.google.com].each do |legacy|
+  assert!(!browser_source.downcase.include?(legacy), "legacy browser dependency #{legacy} is absent")
+end
+javascript_include = read("_includes/js.html")
+assert!(javascript_include.include?("bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"), "Bootstrap bundle is 5.3.8")
+assert!(javascript_include.include?("sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"), "Bootstrap bundle SRI is pinned")
+assert!(javascript_include.include?("typed.js@3.0.0/dist/typed.umd.min.js"), "Typed.js is 3.0.0")
+assert!(javascript_include.include?("sha384-Yov59JWOKYHWUHWDFnCDfZuYmSmavoEutcw/+/ltVWuLGFjOmshWw0r0UV2yCwFi"), "Typed.js SRI is pinned")
+assert!(javascript_include.include?("new Typed("), "Typed constructor API is used")
+assert!(javascript_include.include?('jekyll.environment == "production"'), "Disqus bootstrap remains production-mode only")
+assert!(javascript_include.scan('window.location.hostname !== "tyeolrik.github.io"').length == 2, "Disqus embed and count injections use the exact production hostname")
+assert!(javascript_include.include?('script.src = "https://{{ site.disqus-shortname }}.disqus.com/embed.js"'), "Disqus embed bootstrap constructs the expected URL")
+assert!(javascript_include.include?('script.src = "https://{{ site.disqus-shortname }}.disqus.com/count.js"'), "Disqus count bootstrap constructs the expected URL")
+assert!(!javascript_include.match?(%r{<script[^>]+src="https://\{\{ site\.disqus-shortname \}\}\.disqus\.com/count\.js"}), "Disqus count has no unguarded static network injection")
+
+share_markup = read("_includes/share.html")
+component_encoding = '| cgi_escape | replace: "+", "%20"'
+assert!(share_markup.scan(component_encoding).length == 2, "share URL and title use component-safe encoding")
+assert!(!share_markup.include?("| uri_escape"), "share values do not use URI-level escaping")
+
+site_javascript = read("js/site.js")
+assert!(site_javascript.include?("popup=yes,noopener,noreferrer,scrollbars=yes"), "share popups request interoperable opener isolation")
+assert!(site_javascript.include?("popup.opener = null"), "share popups defensively clear opener")
+
+mathjax = read("_includes/mathjax-support.html")
+assert!(mathjax.include?("window.MathJax ="), "MathJax configuration uses the v4 API")
+assert!(mathjax.include?("mathjax@4.1.3/tex-mml-chtml.js"), "MathJax is 4.1.3")
+assert!(mathjax.include?("sha384-OrHfGTnIbkl0do3N76qW/uWr38o91N05sbSPuYBPLH+hG8X/dNSrjZf3AGjzrCwC"), "MathJax SRI is pinned")
+assert!(!mathjax.include?("MathJax.Hub"), "MathJax v2 API is absent")
+
+config = read("_config.yml")
+head = read("_includes/head.html")
+wedding = read("wedding/index.html")
+assert!(config.include?('google-analytics-id: "G-WYMVRPT9ZB"'), "GA4 measurement ID is configured")
+assert!(head.include?('data-measurement-id="{{ site.google-analytics-id }}"'), "Jekyll head loads shared analytics")
+assert!(wedding.include?('data-measurement-id="G-WYMVRPT9ZB"'), "wedding loads shared analytics")
+assert!(wedding.include?('<link rel="icon" type="image/x-icon" href="/img/favicon.ico">'), "wedding declares the tracked favicon")
+assert!(File.exist?(File.join(ROOT, "img", "favicon.ico")), "wedding favicon exists")
+assert!(read("js/analytics.js").include?('window.location.hostname !== "tyeolrik.github.io"'), "analytics has the production hostname guard")
+assert!(!head.include?("UA-89622772-1"), "Universal Analytics is absent")
+
+tracked = IO.popen(["git", "-C", ROOT, "ls-files"], &:read).lines.map(&:strip)
+%w[_site .jekyll-cache .sass-cache].each do |artifact|
+  assert!(tracked.none? { |path| path == artifact || path.start_with?("#{artifact}/") }, "#{artifact} is not tracked")
+end
+
+source_markup = Dir.glob(File.join(ROOT, "{_includes,_layouts}", "**", "*.html")).sort.map { |path| File.read(path) }.join("\n")
+assert!(!source_markup.match?(/(?:src|href)=["']\/\//), "source assets do not use protocol-relative URLs")
+%w[html5shiv respond.js UA-89622772-1].each do |legacy|
+  assert!(!source_markup.include?(legacy), "#{legacy} is absent")
+end
+assert!(Dir.glob(File.join(ROOT, "_posts", "*")).count == 93, "all 93 posts remain")
+assert!(Dir.glob(File.join(ROOT, "tags", "*.html")).count == 152, "all 152 tag pages remain")
+assert!(Dir.glob(File.join(ROOT, "categories", "*.html")).count == 24, "all 24 category pages remain")
+
+%w[36 48 72 96 144 192].each do |size|
+  icon = "/img/web-app/icon-#{size}p.png"
+  assert!(config.include?(%(icon-#{size}p: "#{icon}")), "web-app #{size}px icon uses the tracked icon family")
+  assert!(File.exist?(File.join(ROOT, icon)), "web-app #{size}px icon exists")
+end
+
+taxonomy_routes = {
+  "tags/nfs.md" => "/tags/nfs.html",
+  "tags/storage.md" => "/tags/storage.html",
+  "categories/nfs.md" => "/categories/nfs.html"
+}
+taxonomy_routes.each do |source, route|
+  assert!(File.exist?(File.join(ROOT, source)), "#{source} exists")
+  assert!(read(source).include?(%(permalink: "#{route}")), "#{source} preserves #{route}")
+end
+
+post_layout = read("_layouts/post.html")
+canonical_tag_link = '<a class="tag" href="{{site.baseurl}}/tags/{{tag | downcase}}.html">#{{ tag }}</a>'
+assert!(
+  post_layout.include?(canonical_tag_link),
+  "post tag links lowercase only the route while preserving the original display label"
+)
+
+site_checker = read("scripts/check-site")
+assert!(site_checker.include?('ignore_urls: [%r{\Ahttp://}]'), "legacy external HTTP URLs are delegated to the external audit")
+
+project_readme = read("README.md")
+scripts_readme = read("scripts/README.md")
+[project_readme, scripts_readme].each do |documentation|
+  assert!(documentation.include?("Ruby 4.0.6"), "documentation names Ruby 4.0.6")
+  assert!(documentation.include?("Bundler 4.0.16"), "documentation names Bundler 4.0.16")
+  assert!(documentation.include?("Jekyll 4.4.1"), "documentation names Jekyll 4.4.1")
+end
+assert!(project_readme.include?("Internal failures block CI and deployment"), "README documents blocking internal failures")
+assert!(project_readme.include?("they do not block Pages"), "README documents nonblocking external links")
+assert!(!project_readme.match?(/\b(?:Node|npm)\b/i), "README does not require Node or npm")
+assert!(!File.exist?(File.join(ROOT, ".travis.yml")), "Travis configuration is absent")
+
+action_pins = {
+  "actions/checkout" => "9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0", # v7.0.0
+  "ruby/setup-ruby" => "8e41b362d2589a22a44c1cfa214b3c83052c195b", # v1.318.0
+  "actions/upload-artifact" => "043fb46d1a93c77aae656e7c1c64a875d1fc6a0a", # v7.0.1
+  "actions/configure-pages" => "45bfe0192ca1faeb007ade9deae92b16b8254a0d", # v6.0.0
+  "actions/upload-pages-artifact" => "fc324d3547104276b827a68afc52ff2a11cc49c9", # v5.0.0
+  "actions/deploy-pages" => "cd2ce8fcbc39b97be8ca5fce6e763baed58fa128" # v5.0.0
+}
+workflows = Dir.glob(File.join(ROOT, ".github", "workflows", "*.yml")).sort.map { |path| File.read(path) }.join("\n")
+pages_workflow = File.join(ROOT, ".github/workflows/pages.yml")
+assert!(File.exist?(pages_workflow), "Pages workflow exists")
+pages_source = File.exist?(pages_workflow) ? File.read(pages_workflow) : ""
+pages_config = YAML.safe_load(pages_source, aliases: false)
+pages_on_keys = pages_config.is_a?(Hash) ? pages_config.keys.select { |key| key == "on" || key == true } : []
+pages_events = pages_on_keys.one? ? pages_config[pages_on_keys.first] : nil
+pages_event_keys = pages_events.is_a?(Hash) ? pages_events.keys.map(&:to_s) : []
+assert!(pages_event_keys == ["workflow_dispatch"], "Pages workflow has only the workflow_dispatch trigger")
+action_pins.each do |name, sha|
+  assert!(workflows.include?("#{name}@#{sha}"), "#{name} is pinned to #{sha}")
+end
+assert!(File.exist?(File.join(ROOT, ".github/workflows/ci.yml")), "CI workflow exists")
+assert!(File.exist?(File.join(ROOT, ".github/workflows/external-links.yml")), "external-link workflow exists")

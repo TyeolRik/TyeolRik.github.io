@@ -1,3 +1,4 @@
-#!/bin/bash
-
-jekyll serve --watch --host "127.0.0.1" --baseurl ""
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "${BASH_SOURCE[0]}")/.."
+exec bundle exec jekyll serve --livereload --host 127.0.0.1 --baseurl ""

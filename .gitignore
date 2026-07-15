@@ -9,17 +9,16 @@ tramp
 .\#*
 
 _site/
+.jekyll-cache/
+.jekyll-metadata
 .sass-cache/
+.bundle/
+vendor/bundle/
+Gemfile.lock.old
 *.swp
 pkg/
-test/
-_deploy/*
-Rakefile
-.jekyll-metadata
 /.idea/
 
-# Jekyll Cache
-.jekyll-cache/
-Gemfile.lock.old
-
-marry/
+# Local agent workspaces and progress ledgers
+.worktrees/
+.superpowers/

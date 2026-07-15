@@ -1,0 +1,21 @@
+.highlight {
+  color: #f8f8f2;
+  background: #272822;
+
+  .c, .ch, .cm, .cp, .cpf, .c1, .cs { color: #75715e; }
+  .err, .gr, .gt { color: #960050; }
+  .k, .kc, .kd, .kn, .kp, .kr, .kt, .o, .ow, .nt { color: #f92672; }
+  .na, .nc, .nd, .ne, .nf { color: #a6e22e; }
+  .nb, .bp, .sr { color: #f6aa11; }
+  .no, .vc, .vg, .vi { color: #66d9ef; }
+  .m, .mb, .mf, .mh, .mi, .il, .mo, .se, .sc, .ss { color: #ae81ff; }
+  .s, .sa, .sb, .dl, .sd, .s2, .sh, .si, .sx, .s1 { color: #e6db74; }
+  .gd, .gi { color: #49483e; }
+  .gh { color: #999999; }
+  .go { color: #888888; }
+  .gp { color: #555555; }
+  .gu { color: #aaaaaa; }
+  .ge { font-style: italic; }
+  .ges { font-weight: bold; font-style: italic; }
+  .gs { font-weight: bold; }
+}

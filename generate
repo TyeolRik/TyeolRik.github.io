@@ -1,45 +1,55 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
-require 'yaml'
+require "date"
+require "pathname"
+require "set"
+require "yaml"
 
-POSTS_DIR = '_posts/'
-TAGS_DIR = 'tags/'
-CATEGORIES_DIR = 'categories/'
+root = Pathname(ENV.fetch("JEKYLL_SITE_ROOT", __dir__)).expand_path
+posts_dir = root.join("_posts")
+tags_dir = root.join("tags")
+categories_dir = root.join("categories")
+tags = Set.new
+categories = Set.new
 
-Dir.foreach(POSTS_DIR) do |post|
+def front_matter(path)
+  match = File.read(path, encoding: "UTF-8").match(/\A---\s*\n(.*?)\n---\s*\n/m)
+  return {} unless match
 
-  next if post == '.' or post == '..' or post == '.DS_Store'
-  postYaml = YAML.load_file(POSTS_DIR + post)
-  unless (postYaml['tags'] == nil)
-    postYaml['tags'].each{|tag|
+  YAML.safe_load(match[1], permitted_classes: [Date, Time], aliases: true) || {}
+end
 
-      tag.downcase!
+def page_name(value)
+  name = value.to_s.downcase
+  abort "Unsafe tag/category name: #{value.inspect}" if name.empty? || name.include?("/") || %w[. ..].include?(name)
+  name
+end
 
-      unless File.exist?(TAGS_DIR + tag + '.html')
+def page_exists?(directory, filename)
+  %w[html md markdown].any? { |extension| directory.join("#{filename}.#{extension}").exist? }
+end
 
-        puts('[+] Generating #' + tag + ' page')
+posts_dir.glob("*.{md,markdown,html}").sort.each do |post|
+  data = front_matter(post)
+  Array(data["tags"]).each { |tag| tags << [page_name(tag), tag.to_s] }
+  category = data["category"]
+  categories << [page_name(category), category.to_s] if category
+end
 
-        File.open(TAGS_DIR + tag + '.html', 'w') {|f| f.write(
-        "---\nlayout: tag\nsection-type: tag\ntitle: " + tag + "\n---\n## Tag")}
+tags_dir.mkpath
+categories_dir.mkpath
 
-      end
-    }
-  end
+tags.sort.each do |filename, title|
+  path = tags_dir.join("#{filename}.html")
+  next if page_exists?(tags_dir, filename)
+  puts "[+] Generating ##{filename} page"
+  File.write(path, YAML.dump("layout" => "tag", "section-type" => "tag", "title" => title.downcase) + "---\n## Tag\n")
+end
 
-  next if post == '.' or post == '..' or post == '.DS_Store'
-  postYaml = YAML.load_file(POSTS_DIR + post)
-  unless (postYaml['category'] == nil)
-    category = postYaml['category']
-
-    unless File.exist?(CATEGORIES_DIR + category.downcase + '.html')
-
-      puts('[+] Generating #' + category + ' page')
-
-      File.open(CATEGORIES_DIR + category.downcase + '.html', 'w') {|f| f.write(
-      "---\nlayout: category\nsection-type: category\ntitle: " + category + "\n---\n## Category")}
-
-    end
-
-  end
-
+categories.sort.each do |filename, title|
+  path = categories_dir.join("#{filename}.html")
+  next if page_exists?(categories_dir, filename)
+  puts "[+] Generating ##{filename} page"
+  File.write(path, YAML.dump("layout" => "category", "section-type" => "category", "title" => title) + "---\n## Category\n")
 end
