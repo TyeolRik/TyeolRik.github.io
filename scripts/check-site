@@ -2,6 +2,10 @@
 # frozen_string_literal: true
 
 require "html-proofer"
+require "nokogiri"
+require "pathname"
+require "set"
+require "uri"
 
 ROOT = File.expand_path("..", __dir__)
 SITE = File.join(ROOT, "_site")
@@ -9,6 +13,25 @@ SITE = File.join(ROOT, "_site")
 def assert!(condition, message)
   abort "FAIL: #{message}" unless condition
   puts "PASS: #{message}"
+end
+
+def internal_target_path(reference, source_path)
+  return if reference.nil? || reference.empty? || reference.start_with?("#", "//")
+
+  uri = URI.parse(reference)
+  return if uri.scheme || uri.host || uri.path.nil? || uri.path.empty?
+
+  relative_path = if uri.path.start_with?("/")
+                    uri.path.delete_prefix("/")
+                  else
+                    Pathname.new(File.join(File.dirname(source_path), uri.path)).cleanpath.to_s
+                  end
+  relative_path = URI::DEFAULT_PARSER.unescape(relative_path)
+  relative_path = "index.html" if relative_path.empty?
+  relative_path = File.join(relative_path, "index.html") if relative_path.end_with?("/")
+  relative_path unless relative_path.start_with?("../")
+rescue URI::InvalidURIError
+  nil
 end
 
 required = %w[
@@ -60,6 +83,33 @@ generated_html = Dir.glob(File.join(SITE, "**", "*.html")).sort.map { |path| Fil
   assert!(!generated_html.downcase.include?(legacy.downcase), "generated HTML omits #{legacy}")
 end
 assert!(!generated_html.match?(/(?:src|href)=["']\/\//), "generated assets do not use protocol-relative URLs")
+
+site_files = Dir.glob(File.join(SITE, "**", "*"), File::FNM_DOTMATCH)
+  .select { |path| File.file?(path) }
+  .map { |path| Pathname.new(path).relative_path_from(Pathname.new(SITE)).to_s }
+  .to_set
+site_files_by_casefold = site_files.group_by(&:downcase)
+case_mismatches = Dir.glob(File.join(SITE, "**", "*.html")).sort.flat_map do |html_path|
+  source_path = Pathname.new(html_path).relative_path_from(Pathname.new(SITE)).to_s
+  document = Nokogiri::HTML5(File.read(html_path, encoding: "UTF-8"))
+
+  %w[href src].flat_map do |attribute|
+    document.css("[#{attribute}]").filter_map do |node|
+      reference = node[attribute]
+      target_path = internal_target_path(reference, source_path)
+      next if target_path.nil? || site_files.include?(target_path)
+
+      canonical_path = site_files_by_casefold[target_path.downcase]&.first
+      next if canonical_path.nil?
+
+      "#{source_path}: #{reference} differs from #{canonical_path}"
+    end
+  end
+end
+assert!(
+  case_mismatches.empty?,
+  (["generated internal targets match exact path casing"] + case_mismatches).join("\n")
+)
 
 HTMLProofer.check_directory(
   SITE,
