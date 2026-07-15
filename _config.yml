@@ -89,7 +89,16 @@ enable-gesture-navigation: False # TyeolRik Configured
 
 post-preview-words: 70
 
-paginate: 5
+plugins:
+  - jekyll-paginate-v2
+
+pagination:
+  enabled: true
+  per_page: 5
+  permalink: "/page:num/"
+  title: ":title - page :num"
+  sort_field: "date"
+  sort_reverse: true
 
 email-share: True
 fb-share: True
@@ -158,7 +167,7 @@ social:
 # 404 page #
 ############
 
-+err-404-img: "/img/tyeolrik_transparent.png"
+err-404-img: "/img/tyeolrik_transparent.png"
 
 ##################
 # GPG on Keybase #
@@ -184,20 +193,10 @@ pages_list:
 
 exclude: ["LICENSE", "README.md", "CONTRIBUTING", "CONTRIBUTORS", "scripts", "/Working Posts"]
 
-# Pagination path
-
-paginate_path: "blog/page:num/"
-
 # Enable minification SASS
 
 sass:
   style: compressed
-
-gems:
-  - jekyll-paginate
-  - jemoji
-
-environment: production
 
 highlighter: rouge
 markdown: kramdown
@@ -205,8 +204,3 @@ kramdown:
   input: GFM
   syntax_highlighter: rouge
   math_engine: mathjax
-  
-
-# Additional
-plugins:
-  - jekyll-paginate

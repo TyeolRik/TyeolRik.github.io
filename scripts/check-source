@@ -30,3 +30,12 @@ assert!(lockfile.include?("html-proofer (5.2.1)"), "lockfile contains html-proof
 assert!(lockfile.include?("rouge (4.7.0)"), "lockfile contains compatible Rouge 4.7.0")
 assert!(lockfile.match?(/RUBY VERSION\n   ruby 4\.0\.6(?:p\d+)?/), "lockfile Ruby is 4.0.6")
 assert!(lockfile.include?("BUNDLED WITH\n   #{expected_bundler}"), "lockfile Bundler is #{expected_bundler}")
+
+config = read("_config.yml")
+blog_index = read("blog/index.html")
+assert!(config.include?("- jekyll-paginate-v2"), "Jekyll loads jekyll-paginate-v2")
+assert!(config.include?("per_page: 5"), "pagination keeps five posts per page")
+assert!(config.include?('permalink: "/page:num/"'), "pagination keeps /blog/page2/ shape")
+assert!(!config.match?(/^paginate:/), "legacy paginate key is absent")
+assert!(!config.match?(/^paginate_path:/), "legacy paginate_path is absent")
+assert!(blog_index.include?("pagination:\n  enabled: true"), "blog opts into pagination v2")
