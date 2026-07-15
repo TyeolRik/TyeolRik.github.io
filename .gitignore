@@ -23,3 +23,7 @@ Rakefile
 Gemfile.lock.old
 
 marry/
+
+# Local agent workspaces and progress ledgers
+.worktrees/
+.superpowers/
