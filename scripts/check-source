@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+require "yaml"
+
 ROOT = File.expand_path("..", __dir__)
 
 def read(relative_path)
@@ -195,9 +197,11 @@ workflows = Dir.glob(File.join(ROOT, ".github", "workflows", "*.yml")).sort.map 
 pages_workflow = File.join(ROOT, ".github/workflows/pages.yml")
 assert!(File.exist?(pages_workflow), "Pages workflow exists")
 pages_source = File.exist?(pages_workflow) ? File.read(pages_workflow) : ""
-assert!(pages_source.include?("workflow_dispatch:"), "Pages supports manual dispatch")
-pages_on_block = pages_source[/\A.*?^concurrency:/m].to_s
-assert!(!pages_on_block.match?(/^\s*push:/), "initial Pages workflow is manual-only")
+pages_config = YAML.safe_load(pages_source, aliases: false)
+pages_on_keys = pages_config.is_a?(Hash) ? pages_config.keys.select { |key| key == "on" || key == true } : []
+pages_events = pages_on_keys.one? ? pages_config[pages_on_keys.first] : nil
+pages_event_keys = pages_events.is_a?(Hash) ? pages_events.keys.map(&:to_s) : []
+assert!(pages_event_keys == ["workflow_dispatch"], "Pages workflow has only the workflow_dispatch trigger")
 action_pins.each do |name, sha|
   assert!(workflows.include?("#{name}@#{sha}"), "#{name} is pinned to #{sha}")
 end
