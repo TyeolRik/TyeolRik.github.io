@@ -40,12 +40,20 @@ required.each { |path| assert!(File.exist?(File.join(SITE, path)), "#{path} exis
 assert!(!File.exist?(File.join(SITE, "ComputerGraphics", "project3.html")), "ComputerGraphics output is absent")
 
 index = File.read(File.join(SITE, "index.html"), encoding: "UTF-8")
+post = File.read(File.join(SITE, "jekyll", "2021", "04", "27", "jekyll-2-contemplation-of-using-mathjax-in-github-flavored-markdown.html"), encoding: "UTF-8")
 wedding = File.read(File.join(SITE, "wedding", "index.html"), encoding: "UTF-8")
+theme = File.read(File.join(SITE, "css", "grayscale.css"), encoding: "UTF-8")
 assert!(index.include?("bootstrap@5.3.8"), "generated home uses Bootstrap 5.3.8")
 assert!(index.include?("typed.js@3.0.0"), "generated home uses Typed.js 3.0.0")
 assert!(index.include?("mathjax@4.1.3"), "generated home uses MathJax 4.1.3")
 assert!(index.include?("fontawesome-free@7.3.0"), "generated home uses Font Awesome 7.3.0")
 assert!(index.include?("G-WYMVRPT9ZB") && wedding.include?("G-WYMVRPT9ZB"), "GA4 is present on home and wedding")
+assert!(wedding.include?('<link rel="icon" type="image/x-icon" href="/img/favicon.ico">'), "generated wedding declares the tracked favicon")
+assert!(theme.match?(/\.content-section a\s*\{[^}]*text-decoration:\s*none(?:;|\})/m), "generated theme removes Bootstrap 5 content-link underlines")
+assert!(theme.match?(/\.content-section h4 small\s*\{[^}]*font-size:\s*75%;[^}]*font-weight:\s*400;[^}]*line-height:\s*1;[^}]*color:\s*#777(?:;|\})/m), "generated theme restores legacy small-heading typography")
+assert!(index.include?('window.location.hostname !== "tyeolrik.github.io"') && index.include?("https://tyeolrik.disqus.com/count.js"), "generated home keeps the hostname-guarded Disqus count bootstrap")
+assert!(post.scan('window.location.hostname !== "tyeolrik.github.io"').length == 2, "generated post guards both Disqus network injections")
+assert!(post.include?("https://tyeolrik.disqus.com/embed.js") && post.include?("https://tyeolrik.disqus.com/count.js"), "generated post keeps both Disqus bootstrap URLs")
 
 generated_html = Dir.glob(File.join(SITE, "**", "*.html")).sort.map { |path| File.read(path, encoding: "UTF-8") }.join("\n")
 %w[UA-89622772-1 plus.google.com jquery-1.11 hammer.min.js rrssb.min.js highlight.js].each do |legacy|

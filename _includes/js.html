@@ -27,6 +27,7 @@
   {% if page.section-type == "post" %}
   <script>
     (() => {
+      if (window.location.hostname !== "tyeolrik.github.io") return;
       const script = document.createElement("script");
       script.src = "https://{{ site.disqus-shortname }}.disqus.com/embed.js";
       script.async = true;
@@ -36,6 +37,15 @@
   </script>
   {% endif %}
   {% if page.section-type == "post" or page.section-type == "blog" or page.section-type == "index" or page.section-type == "tag" %}
-  <script id="dsq-count-scr" src="https://{{ site.disqus-shortname }}.disqus.com/count.js" async></script>
+  <script>
+    (() => {
+      if (window.location.hostname !== "tyeolrik.github.io") return;
+      const script = document.createElement("script");
+      script.id = "dsq-count-scr";
+      script.src = "https://{{ site.disqus-shortname }}.disqus.com/count.js";
+      script.async = true;
+      document.head.appendChild(script);
+    })();
+  </script>
   {% endif %}
 {% endif %}

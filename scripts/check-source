@@ -72,17 +72,38 @@ active_nav_link = theme.match?(
 )
 assert!(active_nav_link, "Bootstrap 5 active nav link keeps themed background")
 
+legacy_content_typography = {
+  ".content-section a" => ["text-decoration: none;"],
+  ".content-section h1" => ["font-size: 36px;", "line-height: 1.1;"],
+  ".content-section h2" => ["font-size: 30px;", "line-height: 1.1;"],
+  ".content-section h3" => ["font-size: 24px;", "line-height: 1.1;"],
+  ".content-section h4" => ["font-size: 18px;", "line-height: 1.1;"],
+  ".content-section h5" => ["font-size: 14px;", "line-height: 1.1;"],
+  ".content-section h6" => ["font-size: 12px;", "line-height: 1.1;"],
+  ".content-section h4 small" => ["font-size: 75%;", "font-weight: 400;", "line-height: 1;", "color: #777;"]
+}
+legacy_content_typography.each do |selector, declarations|
+  rule = theme[/#{Regexp.escape(selector)}\s*\{([^}]*)\}/m, 1].to_s
+  assert!(declarations.all? { |declaration| rule.include?(declaration) }, "#{selector} restores legacy content typography")
+end
+
 browser_paths = Dir.glob(File.join(ROOT, "{_includes,_layouts,css,js}", "**", "*"))
   .select { |path| File.file?(path) }
 browser_source = browser_paths.sort.map { |path| File.read(path, mode: "rb").force_encoding("UTF-8").scrub }.join("\n")
 %w[jquery jquery-easing hammer.min rrssb highlight.js google-plus plus.google.com].each do |legacy|
   assert!(!browser_source.downcase.include?(legacy), "legacy browser dependency #{legacy} is absent")
 end
-assert!(read("_includes/js.html").include?("bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"), "Bootstrap bundle is 5.3.8")
-assert!(read("_includes/js.html").include?("sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"), "Bootstrap bundle SRI is pinned")
-assert!(read("_includes/js.html").include?("typed.js@3.0.0/dist/typed.umd.min.js"), "Typed.js is 3.0.0")
-assert!(read("_includes/js.html").include?("sha384-Yov59JWOKYHWUHWDFnCDfZuYmSmavoEutcw/+/ltVWuLGFjOmshWw0r0UV2yCwFi"), "Typed.js SRI is pinned")
-assert!(read("_includes/js.html").include?("new Typed("), "Typed constructor API is used")
+javascript_include = read("_includes/js.html")
+assert!(javascript_include.include?("bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"), "Bootstrap bundle is 5.3.8")
+assert!(javascript_include.include?("sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"), "Bootstrap bundle SRI is pinned")
+assert!(javascript_include.include?("typed.js@3.0.0/dist/typed.umd.min.js"), "Typed.js is 3.0.0")
+assert!(javascript_include.include?("sha384-Yov59JWOKYHWUHWDFnCDfZuYmSmavoEutcw/+/ltVWuLGFjOmshWw0r0UV2yCwFi"), "Typed.js SRI is pinned")
+assert!(javascript_include.include?("new Typed("), "Typed constructor API is used")
+assert!(javascript_include.include?('jekyll.environment == "production"'), "Disqus bootstrap remains production-mode only")
+assert!(javascript_include.scan('window.location.hostname !== "tyeolrik.github.io"').length == 2, "Disqus embed and count injections use the exact production hostname")
+assert!(javascript_include.include?('script.src = "https://{{ site.disqus-shortname }}.disqus.com/embed.js"'), "Disqus embed bootstrap constructs the expected URL")
+assert!(javascript_include.include?('script.src = "https://{{ site.disqus-shortname }}.disqus.com/count.js"'), "Disqus count bootstrap constructs the expected URL")
+assert!(!javascript_include.match?(%r{<script[^>]+src="https://\{\{ site\.disqus-shortname \}\}\.disqus\.com/count\.js"}), "Disqus count has no unguarded static network injection")
 
 share_markup = read("_includes/share.html")
 component_encoding = '| cgi_escape | replace: "+", "%20"'
@@ -105,6 +126,8 @@ wedding = read("wedding/index.html")
 assert!(config.include?('google-analytics-id: "G-WYMVRPT9ZB"'), "GA4 measurement ID is configured")
 assert!(head.include?('data-measurement-id="{{ site.google-analytics-id }}"'), "Jekyll head loads shared analytics")
 assert!(wedding.include?('data-measurement-id="G-WYMVRPT9ZB"'), "wedding loads shared analytics")
+assert!(wedding.include?('<link rel="icon" type="image/x-icon" href="/img/favicon.ico">'), "wedding declares the tracked favicon")
+assert!(File.exist?(File.join(ROOT, "img", "favicon.ico")), "wedding favicon exists")
 assert!(read("js/analytics.js").include?('window.location.hostname !== "tyeolrik.github.io"'), "analytics has the production hostname guard")
 assert!(!head.include?("UA-89622772-1"), "Universal Analytics is absent")
 
