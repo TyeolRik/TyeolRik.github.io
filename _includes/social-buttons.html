@@ -1,12 +1,10 @@
-<!-- Social Buttons Start -->
-
 <ul class="list-inline social-buttons">
-    {% for network in site.social %}
-    <li><a href="{{ network.url }}" target="_blank"><i class="fa fa-{{ network.title }} fa-fw"></i></a></li>
-    {% endfor %}
-    {% if site.keybase-in-social %}
-    <li><a href="https://keybase.io/{{site.keybase-username}}" target="_blank"><i class="fa fa-key fa-fw"></i></a></li>
-    {% endif %}
+  {% for network in site.social %}
+  <li class="list-inline-item"><a href="{{ network.url }}" target="_blank" rel="noopener" aria-label="{{ network.title }}">
+    <i class="{{ network.icon }} fa-fw" aria-hidden="true"></i></a></li>
+  {% endfor %}
+  {% if site.keybase-in-social %}
+  <li class="list-inline-item"><a href="https://keybase.io/{{site.keybase-username}}" target="_blank" rel="noopener" aria-label="Keybase">
+    <i class="fa-solid fa-key fa-fw" aria-hidden="true"></i></a></li>
+  {% endif %}
 </ul>
-
-<!-- Social Buttons End -->
