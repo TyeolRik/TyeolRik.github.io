@@ -1,3 +1,19 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-gem install jekyll jekyll-paginate jemoji html-proofer
+root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+required_ruby="$(tr -d '[:space:]' < "$root/.ruby-version")"
+actual_ruby="$(ruby -e 'print RUBY_VERSION')"
+
+if [[ "$actual_ruby" != "$required_ruby" ]]; then
+  printf 'Ruby %s is required; current Ruby is %s. Run: rbenv install %s && rbenv local %s\n' \
+    "$required_ruby" "$actual_ruby" "$required_ruby" "$required_ruby" >&2
+  exit 1
+fi
+
+if ! gem list -i bundler -v 4.0.16 >/dev/null; then
+  gem install bundler -v 4.0.16 --no-document
+fi
+
+cd "$root"
+bundle _4.0.16_ install

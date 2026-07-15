@@ -39,3 +39,17 @@ assert!(config.include?('permalink: "/page:num/"'), "pagination keeps /blog/page
 assert!(!config.match?(/^paginate:/), "legacy paginate key is absent")
 assert!(!config.match?(/^paginate_path:/), "legacy paginate_path is absent")
 assert!(blog_index.include?("pagination:\n  enabled: true"), "blog opts into pagination v2")
+
+removed_paths = %w[
+  ComputerGraphics
+  newpost_deprecated
+  scripts/newpost
+  scripts/newpostForMac
+  scripts/generate-tags
+  scripts/generate-categories
+  scripts/serve-lan-production
+  scripts/integrate-personal
+]
+removed_paths.each do |path|
+  assert!(!File.exist?(File.join(ROOT, path)), "#{path} is removed")
+end
