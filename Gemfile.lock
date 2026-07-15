@@ -196,7 +196,7 @@ DEPENDENCIES
   jekyll-paginate-v2 (= 3.0.0)
 
 RUBY VERSION
-   ruby 4.0.6
+  ruby 4.0.6
 
 BUNDLED WITH
-   4.0.16
+  4.0.16

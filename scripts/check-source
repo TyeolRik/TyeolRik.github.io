@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+require "bundler"
+require "bundler/lockfile_parser"
 require "yaml"
 
 ROOT = File.expand_path("..", __dir__)
@@ -18,6 +20,7 @@ expected_ruby = "4.0.6"
 expected_bundler = "4.0.16"
 gemfile = read("Gemfile")
 lockfile = read("Gemfile.lock")
+lockfile_parser = Bundler::LockfileParser.new(lockfile)
 
 assert!(File.exist?(File.join(ROOT, ".ruby-version")), ".ruby-version exists")
 assert!(read(".ruby-version").strip == expected_ruby, "Ruby pin is #{expected_ruby}")
@@ -30,8 +33,9 @@ assert!(lockfile.include?("jekyll (4.4.1)"), "lockfile contains Jekyll 4.4.1")
 assert!(lockfile.include?("jekyll-paginate-v2 (3.0.0)"), "lockfile contains pagination 3.0.0")
 assert!(lockfile.include?("html-proofer (5.2.1)"), "lockfile contains html-proofer 5.2.1")
 assert!(lockfile.include?("rouge (4.7.0)"), "lockfile contains compatible Rouge 4.7.0")
-assert!(lockfile.match?(/RUBY VERSION\n   ruby 4\.0\.6(?:p\d+)?/), "lockfile Ruby is 4.0.6")
-assert!(lockfile.include?("BUNDLED WITH\n   #{expected_bundler}"), "lockfile Bundler is #{expected_bundler}")
+lockfile_ruby = /\Aruby #{Regexp.escape(expected_ruby)}(?:p\d+)?\z/
+assert!(lockfile_parser.ruby_version&.match?(lockfile_ruby), "lockfile Ruby is 4.0.6")
+assert!(lockfile_parser.bundler_version&.to_s == expected_bundler, "lockfile Bundler is #{expected_bundler}")
 
 config = read("_config.yml")
 blog_index = read("blog/index.html")
